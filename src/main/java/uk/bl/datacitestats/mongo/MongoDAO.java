@@ -1,0 +1,35 @@
+package uk.bl.datacitestats.mongo;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.WriteConcern;
+
+public class MongoDAO {
+
+	private MongoConnection connection;
+	private String db;
+	private String collection;
+
+	@Inject
+	public MongoDAO(MongoConnection connection, @Named("mongo.log.db") String db,
+			@Named("mongo.log.collection") String collection) {
+		this.connection = connection;
+		this.collection = collection;
+		this.db = db;
+		connection.getClient().getDB(db).getCollection(collection).ensureIndex("date");
+		connection.getClient().getDB(db).getCollection(collection)
+				.ensureIndex(new BasicDBObject("doi", 1).append("date", 1), new BasicDBObject("unique", true));
+	}
+
+	/**
+	 * Add a line to the collection. Skips duplicates doi/date pairs.
+	 * 
+	 * @param line
+	 */
+	public void putLine(MongoLogLine line) {
+		connection.getClient().getDB(db).getCollection(collection)
+				.insert(line.toDBObject(), WriteConcern.UNACKNOWLEDGED);
+	}
+}

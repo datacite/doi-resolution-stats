@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Datacite statistics</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Manager</title>
+<link href="api/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="js/contour/contour.css" rel="stylesheet">
+<link href='css/typeahead-bootstrap.css' rel='stylesheet' />
+<link href='css/datacite-stats.css' rel='stylesheet' />
+</head>
+<body>
+	<div class="ajaxmodal"></div>
+	<div class="container">
+		<div class="stats-header">
+			<h1>Datacite DOI Resolution Stats</h1>
+			<h4>
+				Use this site to query and view <small><a href="#">or
+						read the API Docs</a></small>
+			</h4>
+			<div class="row">
+				<div class="datacentres col-md-8"></div>
+				<div class="btn-group  btn-toggle col-md-4">
+					<button class="btn btn-primary active" id="monthly-btn">Monthly</button>
+					<button class="btn btn-default" id="daily-btn">Daily</button>
+				</div>
+			</div>
+		</div>
+		<h2 id="linecharttitle" class="tit-head">
+			Total DOI Resolutions per day <small><a href="#">csv</a> <a
+				href="#">json</a> <a href="#">xml</a></small>
+		</h2>
+		<div id="linechart"></div>
+
+		<h2 id="linecharttitle" class="tit-head">
+			Top 100 DOIs <small><a href="#">csv</a> <a href="#">json</a>
+				<a href="#">xml</a></small>
+		</h2>
+		<div class="table-responsive" style="padding-bottom: 2em">
+			<table class="table table-striped table-condensed">
+				<thead>
+					<tr>
+						<th width="67%">DOI</th>
+						<th width="33%">Count</th>
+					</tr>
+				</thead>
+			</table>
+			<div class="bodycontainer scrollable">
+				<table class="table table-striped table-condensed table-scrollable">
+					<tbody id="hitstable">
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script src="api/webjars/jquery/1.11.1/jquery.js"></script>
+	<script src="api/webjars/bootstrap/3.2.0/js/bootstrap.js"></script>
+	<script src="api/webjars/d3js/3.4.11/d3.js" charset="utf-8"></script>
+	<script src="api/webjars/lodash/2.4.1-6/lodash.js"></script>
+	<script src="js/contour/contour.js" charset="utf-8"></script>
+	<script src="js/drawable.js"></script>
+	<script src="api/webjars/momentjs/2.8.3/moment.js"></script>
+	<script src="api/webjars/typeaheadjs/0.9.3/typeahead.min.js"></script>
+	<script src="js/datacite-stats.js"></script>
+	
+</body>
+</html>

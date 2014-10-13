@@ -1,0 +1,42 @@
+.ajaxmodal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(255, 255, 255, .8) url('../images/ajax-loader.gif') 50%
+		50% no-repeat;
+}
+
+body.ajaxloading {
+	overflow: hidden;
+}
+
+body.ajaxloading .ajaxmodal {
+	display: block;
+}
+
+.bodycontainer {
+	max-height: 300px;
+	width: 100%;
+	margin: 0;
+	overflow-y: auto;
+}
+
+.table-scrollable {
+	margin: 0;
+	padding: 0;
+}
+
+.stats-header {
+	background-color: #EEEEEE;
+	margin: 0em -4em -1em -4em;
+	padding: 0.5em 4em 2em 4em
+}
+
+.tit-head {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
