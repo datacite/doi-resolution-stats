@@ -1,7 +1,5 @@
 package uk.bl.datacitestats;
 
-import java.util.TimeZone;
-
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.ext.guice.SelfInjectingServerResourceModule;

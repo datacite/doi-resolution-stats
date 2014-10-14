@@ -17,7 +17,7 @@
 		<div class="stats-header">
 			<h1>Datacite DOI Resolution Stats</h1>
 			<h4>
-				Use this site to query and view <small><a href="#">or
+				Use this site to query and view <small><a href="#" data-toggle="modal" data-target="#apidocs">or
 						read the API Docs</a></small>
 			</h4>
 			<div class="row">
@@ -56,6 +56,46 @@
 		</div>
 	</div>
 
+<div class="modal fade" id="apidocs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">API Documentation</h4>
+      </div>
+      <div class="modal-body">
+		<p>The RESTful API enables daily, monthly and Top DOI queries.  Daily and monthly queries can be restricted to individual DOI prefixes and further broken down into per-DOI stats.</p>
+		<p>Results are returned in JSON by default but all support "text/csv" or "application/xml" content types.  Simply set the Accept header.</p>
+		<h3>Examples</h3>
+		<pre>
+Return the top 100 DOIs of all time and their hit counts
+`api/stats/hits?limit=100`
+
+Return the top 1000 DOIs with the prefix 10.1234
+`api/stats/hits/10.1234?limit=1000`
+
+Return daily stats for all datacite
+`api/stats/daily`
+
+Return monthly stats for all datacite
+`api/stats/monthly`
+
+Return dailystats for 10.1234
+`api/stats/daily/10.5061`
+
+Return monthly stats for 10.1234 as a MAP
+`api/stats/daily/10.5061?map`
+
+Return monthly stats for 10.1234 broken down by doi
+`api/stats/daily/10.5061?breakdown=true`
+
+In addition, a map of DOI prefixes to Datacentre names is provided at
+`api/dois/prefixes`
+		</pre>
+	</div>
+	</div>
+</div>
+</div>
 	<script src="api/webjars/jquery/1.11.1/jquery.js"></script>
 	<script src="api/webjars/bootstrap/3.2.0/js/bootstrap.js"></script>
 	<script src="api/webjars/d3js/3.4.11/d3.js" charset="utf-8"></script>

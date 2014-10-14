@@ -18,9 +18,9 @@ public class MongoDAO {
 		this.connection = connection;
 		this.collection = collection;
 		this.db = db;
-		connection.getClient().getDB(db).getCollection(collection).ensureIndex("date");
+		connection.getClient().getDB(db).getCollection(collection).createIndex(new BasicDBObject("date", 1));
 		connection.getClient().getDB(db).getCollection(collection)
-				.ensureIndex(new BasicDBObject("doi", 1).append("date", 1), new BasicDBObject("unique", true));
+				.createIndex(new BasicDBObject("doi", 1).append("date", 1), new BasicDBObject("unique", true));
 	}
 
 	/**

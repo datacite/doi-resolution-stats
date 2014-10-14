@@ -5,7 +5,11 @@ Simple application that takes DOI resolution logs provided by CNRI, parses them 
 
 Developed with RESTlet, Guice, Contour.js and MongoDB.
 
-Simnple mvn package up the lot into a .war file and deploy in your favourite container.  Mongo can be configured via web.xml init-params.  See GuiceConfigModule.java for parameter names.  Mongo can be swapped out by implementing the LogLoader and LogQueryResolver interfaces and making them use your favourite repository.
+Simple mvn package up the lot into a .war file and deploy in your favourite container.  Mongo can be configured via web.xml init-params.  See GuiceConfigModule.java for parameter names.  Mongo can be swapped out by implementing the LogLoader and LogQueryResolver interfaces and making them use your favourite repository.
+
+Screenshot
+==========
+[Screenshot](datacite-screenshot.png)
 
 API
 ===
