@@ -30,13 +30,13 @@ Return monthly stats for all datacite
 `api/stats/monthly`
 
 Return dailystats for 10.1234
-`api/stats/daily/10.5061`
+`api/stats/daily/10.1234`
 
 Return monthly stats for 10.1234 as a MAP
-`api/stats/daily/10.5061?map`
+`api/stats/daily/10.1234?map`
 
 Return monthly stats for 10.1234 broken down by doi
-`api/stats/daily/10.5061?breakdown=true`
+`api/stats/daily/10.1234?breakdown=true`
 
 In addition, a map of DOI prefixes -> Datacentre names is provided at
 `api/dois/prefixes`
