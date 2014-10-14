@@ -9,7 +9,7 @@ Simple mvn package up the lot into a .war file and deploy in your favourite cont
 
 Screenshot
 ==========
-[Screenshot](datacite-screenshot.png)
+![Screenshot](datacite-screenshot.png)
 
 API
 ===
