@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/** Parses logs supplied by CNRI into POJOs
  * @see http://sujitpal.blogspot.co.uk/2009/06/some-access-log-parsers.html
  * 
  * @author tom
@@ -73,10 +73,7 @@ public class DataciteLogParser {
 		try {
 			logline = type.newInstance();
 			logline.setHost(line.get(0));
-			logline.setDate(dataciteDate.parse(line.get(2)));// need to work
-																// with the
-																// timezone
-																// here!
+			logline.setDate(dataciteDate.parse(line.get(2)));
 			logline.setDoi(line.get(6));
 			if (line.size() > 8)
 				logline.setReferer(line.get(8));

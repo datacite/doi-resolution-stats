@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.google.common.base.Optional;
 
+/** Main service interface for querying logs
+ * 
+ * @author tom
+ *
+ */
 public interface LogQueryResolver {
 
 	// get a list of results by month for all requests

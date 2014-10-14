@@ -58,6 +58,4 @@ TODO
 * Implement CSV & XML content types
 * Implement a date slider to restrict view
 * Provide an admin servlet that fires off bulk load jobs.  Currently run via junit script.
-* Clean up javascript into a single object.
 * Live fetch (and cache in the db) datacite customer prefixes & display names.  Currently parsed from a static JSON file.
-* Beef up javadocs

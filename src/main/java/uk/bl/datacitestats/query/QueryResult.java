@@ -7,6 +7,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/** Query results, all fields nullable, nulls ignored when serialising.
+ * 
+ * @author tom
+ *
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "year", "month", "day", "count", "doi" })
 public class QueryResult {

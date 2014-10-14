@@ -25,7 +25,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Maps;
 
-/**
+/** Resource that serves stats representations.  Caches results for 12 hours.
  * 
  * Expects {type},{prefix},{suffix} URI attributes - prefix and suffix are
  * optional type is in [hits,daily,monthly] daily and monthly can have
@@ -86,6 +86,10 @@ public class StatsResource extends SelfInjectingServerResource {
 		doi = Optional.fromNullable(prefix);
 	}
 
+	/** Interprets request, queries back end, return result.  Simple.
+	 * 
+	 * @return
+	 */
 	@Get("json")
 	public List<QueryResult> getStats() {
 		List<QueryResult> result = cache.getIfPresent(getRequest().getResourceRef().toString());

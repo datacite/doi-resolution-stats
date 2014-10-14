@@ -24,6 +24,12 @@ public class MongoLogLoader implements LogLoader {
 	private DataciteLogParser parser;
 	Set<String> ignore;
 
+	/** Cerate a Mongo specific log loader.
+	 * 
+	 * @param dao
+	 * @param parser
+	 * @param ignoreip a list of ip addresses to skip/ignore
+	 */
 	@Inject
 	public MongoLogLoader(MongoDAO dao, DataciteLogParser parser, @Named("log.ignoreip") String[] ignoreip) {
 		this.dao = dao;
@@ -31,6 +37,9 @@ public class MongoLogLoader implements LogLoader {
 		ignore = Sets.newHashSet(ignoreip);
 	}
 
+	/** Iterates over the stream, parses each line and passes the LogLine to the dao for persistence.
+	 * 
+	 */
 	public LogLoadReport load(InputStream logfile) {
 		LogLoadReport report = new LogLoadReport();
 		try {

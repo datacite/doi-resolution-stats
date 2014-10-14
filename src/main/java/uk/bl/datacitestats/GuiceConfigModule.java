@@ -14,6 +14,11 @@ import com.google.common.collect.Sets;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
+/** Configures our dependencies
+ * 
+ * @author tom
+ *
+ */
 public class GuiceConfigModule extends AbstractModule {
 
 	Logger logger = LoggerFactory.getLogger(GuiceConfigModule.class);
@@ -30,6 +35,7 @@ public class GuiceConfigModule extends AbstractModule {
 
 	/**
 	 * Can be configured using web.xml by init-param with defined static keys.
+	 * 	"mongo.log.db", "mongo.log.collection","mongoHost","mongoPort"
 	 * 
 	 * @param parameters
 	 */

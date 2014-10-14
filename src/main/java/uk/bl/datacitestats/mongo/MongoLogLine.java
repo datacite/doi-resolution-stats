@@ -7,6 +7,11 @@ import uk.bl.datacitestats.logloader.LogLine;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+/** A specialised LogLine that can (de)serialise from/to a MongoDB object
+ * 
+ * @author tom
+ *
+ */
 public class MongoLogLine implements LogLine {
 
 	private Date date;

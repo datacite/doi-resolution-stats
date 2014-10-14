@@ -17,6 +17,11 @@ import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+/** Mongo implementation of the stats query resolver.  Uses Mongo Aggregations.
+ * 
+ * @author tom
+ *
+ */
 public class MongoQueryResolver implements LogQueryResolver {
 
 	Logger logger = LoggerFactory.getLogger(MongoQueryResolver.class);

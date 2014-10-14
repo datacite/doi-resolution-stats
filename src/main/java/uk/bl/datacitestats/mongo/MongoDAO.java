@@ -2,16 +2,25 @@ package uk.bl.datacitestats.mongo;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.WriteConcern;
 
+@Singleton
 public class MongoDAO {
 
 	private MongoConnection connection;
 	private String db;
 	private String collection;
 
+	/** Creates a (thread safe) DAO instance.
+	 * Ensures collection is indexed on (Date) and (DOI, Date)
+	 * 
+	 * @param connection
+	 * @param db
+	 * @param collection
+	 */
 	@Inject
 	public MongoDAO(MongoConnection connection, @Named("mongo.log.db") String db,
 			@Named("mongo.log.collection") String collection) {

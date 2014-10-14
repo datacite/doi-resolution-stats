@@ -16,6 +16,11 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** Walks a file tree, handing all files it finds to the supplied LogLoader.
+ * 
+ * @author tom
+ *
+ */
 public class LogMarshaller {
 
 	Logger logger = LoggerFactory.getLogger(LogMarshaller.class);
