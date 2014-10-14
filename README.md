@@ -51,6 +51,11 @@ Logs are provided in UTC and EST timezones.  Mongo stores them all as UTC.  The 
 
 The issue is that logs provided in "monthly" blocks equate to different stretches of time!  This means over/underlaps of data at the beginning and end of the first and most recent month.  There is little we can do about this when querying but does mean the last day of the most recent month is WRONG.  Answers on a postcard.  It also makes unit testing a pain.  If it was simply a different timezone per user we could work this out, but it's not.
 
+Slow first request
+------------------
+
+The first request made to the server for daily or monthly overall stats is slow (roughly 30s, although it does complete).  This request is subsequently cached. This needs to be computed on log load or cached in the db so that it can be returned instantly.
+
 TODO
 ----
 
