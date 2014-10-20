@@ -91,7 +91,16 @@ var datacite = (function(){
 		$(el).attr("data-slider-max",self.data.length);
 		$(el).attr("data-slider-step",1);
 		$(el).attr("data-slider-value","[0,"+(self.data.length-1)+"]");
-		$(el).slider({tooltip:"hide"});
+		
+		var formatter = function(value) {
+			if (!value[1])
+				return "";
+			var from  = moment(self.data[value[0]].x).format('Do MMM YY');
+			var to  = moment(self.data[value[1]].x).format('Do MMM YY');
+			return from +" - "+to;
+		};
+		$(el).slider({formatter:formatter});
+		
 		$(el).on("slide", function(slideEvt) {
 			self.con.setData(self.data.slice(slideEvt.value[0], slideEvt.value[1])).render();
 		});
