@@ -4,6 +4,7 @@ var datacite = (function(){
 	self.period = "monthly";
 	self.doi = "";
 	self.title = "All Datacite resolutions";
+	self.data = null;
 
 	self.start = function(){
 		self.initSpinner();
@@ -82,6 +83,20 @@ var datacite = (function(){
 
 		});
 	};
+	
+	self.createSlider = function(el){
+		//data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"
+		$(el).slider("destroy");
+		$(el).attr("data-slider-min",0);
+		$(el).attr("data-slider-max",self.data.length);
+		$(el).attr("data-slider-step",1);
+		$(el).attr("data-slider-value","[0,"+(self.data.length-1)+"]");
+		$(el).slider({tooltip:"hide"});
+		$(el).on("slide", function(slideEvt) {
+			self.con.setData(self.data.slice(slideEvt.value[0], slideEvt.value[1])).render();
+		});
+		$(el).show();
+	};
 
 	//Query the REST appi for stats
 	self.fetchResults = function() {
@@ -107,7 +122,21 @@ var datacite = (function(){
 												+ ")"
 												+ ' <small><a href="#">csv</a> <a href="#">json</a> <a href="#">xml</a></small>');
 						$("#linechart").empty();
-						self.createContour("#linechart", result);
+						
+						self.data = [];
+
+						for ( var date in result) {
+							var d = new Date(date);
+							var o = {};
+							o.x = d;
+							o.y = result[date];
+							self.data.push(o);
+
+						}
+						console.log(self.data);
+						
+						self.createContour("#linechart", self.data);
+						self.createSlider("#dateslider");
 					},
 					error : function(jq, textStatus, errorThrown) {
 					}
@@ -145,22 +174,11 @@ var datacite = (function(){
 		}
 	};
 
-	self.createContour = function(elem, map) {
-		var data = [];
-
-		var largest = 0;
-		for ( var date in map) {
-			var d = new Date(date);
-			var o = {};
-			o.x = d;
-			o.y = map[date];
-			if (largest < map[date])
-				largest = map[date];
-			data.push(o);
-
+	self.createContour = function(elem, renderdata) {
+		//var largest = 0;
+		for (vals in renderdata){
+			
 		}
-		console.log(data);
-
 		self.con = new Contour({
 			el : elem,
 			chart : {
@@ -168,15 +186,16 @@ var datacite = (function(){
 				gridlines : 'horizontal',
 				padding : {
 					right : 40
-				},
+				}/*,
 				animations : {
 					duration : 1000
-				}
+				}*/
 			},
 			xAxis : {
 				maxTicks : 10,
+				/*maxTicks : 10,
 				linearDomain : true,
-				type : 'time',
+				type : 'time',*/
 				labels : {
 					formatter : function(d) {
 						return moment(d).format('MMM YY');
@@ -184,8 +203,9 @@ var datacite = (function(){
 				}
 			},
 			yAxis : {
-				title : 'Hits',
-				max : largest
+				title : 'Hits'
+					/*,
+				max : largest*/
 			},
 			line : {
 				marker : {
@@ -198,7 +218,7 @@ var datacite = (function(){
 					return moment(d.x).format('Do MMM YY') + ' Hits: ' + d.y;
 				}
 			}
-		}).cartesian().line(data).column(data).tooltip().render();
+		}).cartesian().line(renderdata)/*.column(renderdata)*/.tooltip().render();
 	};
 	return self;
 }());

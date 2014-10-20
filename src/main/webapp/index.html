@@ -7,9 +7,11 @@
 <title>Job Manager</title>
 <link href="api/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet">
+<link href='api/webjars/bootstrap-slider/4.0.1/css/bootstrap-slider.css' rel='stylesheet' />
 <link href="js/contour/contour.css" rel="stylesheet">
 <link href='css/typeahead-bootstrap.css' rel='stylesheet' />
 <link href='css/datacite-stats.css' rel='stylesheet' />
+
 </head>
 <body>
 	<div class="ajaxmodal"></div>
@@ -21,17 +23,23 @@
 						read the API Docs</a></small>
 			</h4>
 			<div class="row">
-				<div class="datacentres col-md-8"></div>
-				<div class="btn-group  btn-toggle col-md-4">
+				<div class="datacentres col-md-6"></div>
+				<div class="col-md-3" style="padding-top:0.5em">
+					<span id="dateslider" style="display:none;"></span>
+				</div>
+				<div class="btn-group btn-toggle col-md-3">
 					<button class="btn btn-primary active" id="monthly-btn">Monthly</button>
 					<button class="btn btn-default" id="daily-btn">Daily</button>
 				</div>
 			</div>
 		</div>
 		<h2 id="linecharttitle" class="tit-head">
-			Total DOI Resolutions per day <small><a href="#">csv</a> <a
-				href="#">json</a> <a href="#">xml</a></small>
+			Total DOI Resolutions per day 
+			<small><a href="#">csv</a> <a
+				href="#">json</a> <a href="#">xml</a></small>			
 		</h2>
+		
+		
 		<div id="linechart"></div>
 
 		<h2 id="linecharttitle" class="tit-head">
@@ -100,6 +108,7 @@ In addition, a map of DOI prefixes -> Datacentre names is provided at
 	<script src="api/webjars/bootstrap/3.2.0/js/bootstrap.js"></script>
 	<script src="api/webjars/d3js/3.4.11/d3.js" charset="utf-8"></script>
 	<script src="api/webjars/lodash/2.4.1-6/lodash.js"></script>
+	<script src="api/webjars/bootstrap-slider/4.0.1/bootstrap-slider.js"></script>
 	<script src="js/contour/contour.js" charset="utf-8"></script>
 	<script src="js/drawable.js"></script>
 	<script src="api/webjars/momentjs/2.8.3/moment.js"></script>

@@ -171,6 +171,7 @@ public class StatsResource extends SelfInjectingServerResource {
 					map.put(d, 0);
 			}
 		}
+		//map.remove(map.lastKey());
 		return map;
 	}
 }
