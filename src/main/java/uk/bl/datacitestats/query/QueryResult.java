@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "year", "month", "day", "count", "doi" })
+@JsonPropertyOrder({ "count", "year", "month", "day",  "doi" })
 public class QueryResult {
 
 	public static final Comparator<QueryResult> BY_DATE = new Comparator<QueryResult>() {

@@ -132,7 +132,7 @@ var datacite = (function(){
 										self.title
 												+ "<small> " + self.period
 												+ ' <a class="apilink" href="'+url+'">json</a>'
-												+ ' <a class="apilink" href="'+url+'&csv=true">csv</a></small>');
+												+ ' <a class="apilink" href="'+url+'&csv">csv</a></small>');
 						$("#linechart").empty();
 						
 						self.data = [];
@@ -179,9 +179,9 @@ var datacite = (function(){
 				self.populateTable("#hitstable", result);
 				$("#hitspinner").hide();
 				if (from && to)
-					$("#daterange").html(moment(from).format('Do MMM YY')+" - "+moment(to).format('Do MMM YY')+" "+"<a class='apilink' href='"+url+"&csv=true'>json</a> <a class='apilink' href='"+url+"&csv=true'>csv</a>");
+					$("#daterange").html(moment(from).format('Do MMM YY')+" - "+moment(to).format('Do MMM YY')+" "+"<a class='apilink' href='"+url+"'>json</a> <a class='apilink' href='"+url+"&csv'>csv</a>");
 				else 
-					$("#daterange").html("<a class='apilink' href='"+url+"'>json</a> <a class='apilink' href='"+url+"&csv=true'>csv</a>");
+					$("#daterange").html("<a class='apilink' href='"+url+"'>json</a> <a class='apilink' href='"+url+"&csv'>csv</a>");
 			},
 			error : function(jq, textStatus, errorThrown) {
 				$("#hitspinner").hide();

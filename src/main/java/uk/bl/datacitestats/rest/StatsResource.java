@@ -3,6 +3,7 @@ package uk.bl.datacitestats.rest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +17,18 @@ import org.joda.time.Days;
 import org.joda.time.Months;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.ext.guice.SelfInjectingServerResource;
+import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
 
 import uk.bl.datacitestats.query.LogQueryResolver;
 import uk.bl.datacitestats.query.QueryResult;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -146,6 +152,31 @@ public class StatsResource extends SelfInjectingServerResource {
 			this.setStatus(Status.CLIENT_ERROR_BAD_REQUEST, "cannot transform hits into a map");
 		return convert(this.getStats());
 	}
+	
+	/**
+	 * Zero filled map date->count
+	 * 
+	 * @return
+	 * @throws ParseException
+	 * @throws JsonProcessingException 
+	 */
+	@Get("?csv")
+	public StringRepresentation asCSVString() throws ParseException, JsonProcessingException {
+		CsvMapper mapper = new CsvMapper();
+		List<QueryResult> list = this.getStats();
+		CsvSchema schema = mapper.schemaFor(QueryResult.class).withHeader();
+		StringRepresentation rep = new StringRepresentation(mapper.writer().withSchema(schema).writeValueAsString(list));
+		if (this.type != STAT_TYPE.HITS){
+			Collections.sort(list,QueryResult.BY_DATE);
+		}
+		rep.setMediaType(MediaType.TEXT_CSV);
+		return rep;
+	}
+	
+	@Get("csv")
+	public StringRepresentation asCSV() throws ParseException, JsonProcessingException {
+		return asCSVString();
+	}
 
 	/*
 	 * @Get("csv?csv") public List<QueryResult> asCsv() { if
@@ -164,7 +195,7 @@ public class StatsResource extends SelfInjectingServerResource {
 	 * @return
 	 * @throws ParseException
 	 */
-	public Map<DateTime, Integer> convert(List<QueryResult> results) throws ParseException {
+	private Map<DateTime, Integer> convert(List<QueryResult> results) throws ParseException {
 		TreeMap<DateTime, Integer> map = Maps.newTreeMap();
 		for (QueryResult q : results) {
 			DateTime d;
