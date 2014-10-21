@@ -18,11 +18,11 @@ var datacite = (function(){
 		$(document).on({
 			ajaxStart : function() {
 				console.log("ajax start");
-				$("body").addClass("ajaxloading");
+				//$("body").addClass("ajaxloading");
 			},
 			ajaxStop : function() {
 				console.log("ajax stop");
-				$("body").removeClass("ajaxloading");
+				//$("body").removeClass("ajaxloading");
 			}
 		});
 	};
@@ -84,6 +84,8 @@ var datacite = (function(){
 		});
 	};
 	
+	
+	
 	self.createSlider = function(el){
 		//data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"
 		$(el).slider("destroy");
@@ -93,7 +95,8 @@ var datacite = (function(){
 		$(el).attr("data-slider-value","[0,"+(self.data.length-1)+"]");
 		
 		var formatter = function(value) {
-			if (!value[1])
+			console.log(value);
+			if (!value || !value[1] || !self.data[value[0]] || !self.data[value[1]])
 				return "";
 			var from  = moment(self.data[value[0]].x).format('Do MMM YY');
 			var to  = moment(self.data[value[1]].x).format('Do MMM YY');
@@ -103,6 +106,7 @@ var datacite = (function(){
 		
 		$(el).on("slide", function(slideEvt) {
 			self.con.setData(self.data.slice(slideEvt.value[0], slideEvt.value[1])).render();
+			self.debouncedFetchHits(self.data[slideEvt.value[0]].x,self.data[slideEvt.value[1]].x);
 		});
 		$(el).show();
 	};
@@ -126,10 +130,9 @@ var datacite = (function(){
 						$('#linecharttitle')
 								.html(
 										self.title
-												+ " ("
-												+ self.period
-												+ ")"
-												+ ' <small><a href="#">csv</a> <a href="#">json</a> <a href="#">xml</a></small>');
+												+ "<small> " + self.period
+												+ ' <a class="apilink" href="'+url+'">json</a>'
+												+ ' <a class="apilink" href="'+url+'&csv=true">csv</a></small>');
 						$("#linechart").empty();
 						
 						self.data = [];
@@ -153,26 +156,40 @@ var datacite = (function(){
 	};
 
 	//Query the REST api for top 100 DOIs
-	self.fetchHits = function() {
+	self.fetchHits = function(from, to) {
 		var url = "";
 		if (self.doi)
 			url = 'api/stats/hits/' + self.doi + "?limit=100";
 		else
 			url = 'api/stats/hits?limit=100';
+		if (from && to){
+			url += '&from='+moment(from).format('YYYY-MM-DD')+"&to="+moment(to).format('YYYY-MM-DD');
+			console.log(url);
+		}
+		$("#hitstable").empty();
+		$("#daterange").empty();
+		$("#hitspinner").show();
 		$.ajax({
 			url : url,
 			type : 'GET',
 			contentType : 'application/json; charset=utf-8',
 			dataType : 'json',
-			async : false,
+			async : true,
 			success : function(result) {
-				$("#hitstable").empty();
 				self.populateTable("#hitstable", result);
+				$("#hitspinner").hide();
+				if (from && to)
+					$("#daterange").html(moment(from).format('Do MMM YY')+" - "+moment(to).format('Do MMM YY')+" "+"<a class='apilink' href='"+url+"&csv=true'>json</a> <a class='apilink' href='"+url+"&csv=true'>csv</a>");
+				else 
+					$("#daterange").html("<a class='apilink' href='"+url+"'>json</a> <a class='apilink' href='"+url+"&csv=true'>csv</a>");
 			},
 			error : function(jq, textStatus, errorThrown) {
+				$("#hitspinner").hide();
 			}
 		});
 	};
+	
+	self.debouncedFetchHits = _.debounce(self.fetchHits, 1000);
 
 	self.populateTable = function(elem, data) {
 		for ( var obj in data) {

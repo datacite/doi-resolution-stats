@@ -55,7 +55,13 @@ public class DataciteLogParser {
 	}
 
 	static final SimpleDateFormat dataciteDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+	//see also
+	/*
+	 * The DataCite DOI Resolution logs for September 2014 have been copied to your sever.
 
+Proxy software on all proxy servers has been updated in the last few weeks. The update, possibly among other things, records the dates in a slightly different format. In my analysis, I found these two new formats: yyyy-mm-dd hh:mm:ss.SSSZ or yyyy-mm-dd hh:mm:ss.SSS'Z'. Examples: "2014-09-01 08:31:55.910-0400" or "2014-09-01 08:31:55.910Z".
+	 */
+	
 	/**
 	 * Parse a line into your implementation of LogLine
 	 * 

@@ -1,6 +1,9 @@
 package uk.bl.datacitestats.rest;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -41,11 +44,14 @@ public class StatsResource extends SelfInjectingServerResource {
 
 	@Inject
 	LogQueryResolver resolver;
+	SimpleDateFormat df = new SimpleDateFormat("YYYY-mm-DD");
 
-	Optional<String> doi;
+	Optional<String> doi = Optional.absent();
 	STAT_TYPE type;
 	Integer limit = 100;
 	boolean breakdown;
+	Optional<Date> from = Optional.absent();
+	Optional<Date> to = Optional.absent();
 
 	public enum STAT_TYPE {
 		DAILY, MONTHLY, HITS;
@@ -81,6 +87,19 @@ public class StatsResource extends SelfInjectingServerResource {
 				this.setStatus(Status.CLIENT_ERROR_BAD_REQUEST, "limit must be an integer");
 			}
 		}
+		if (this.getQueryValue("from") !=null) {
+			try {
+				from = Optional.of(df.parse(this.getQueryValue("from")));
+			} catch (ParseException e) {
+			}
+		}
+		if (this.getQueryValue("to") !=null) {
+			try {
+				to = Optional.of(df.parse(this.getQueryValue("to")));
+			} catch (ParseException e) {
+			}
+		}
+		
 		if (suffix != null)
 			prefix += "/" + suffix;
 		doi = Optional.fromNullable(prefix);
@@ -105,7 +124,7 @@ public class StatsResource extends SelfInjectingServerResource {
 		} else if (type.equals(STAT_TYPE.DAILY)) {
 			result = resolver.daily(doi);
 		} else if (type.equals(STAT_TYPE.HITS))
-			result = resolver.totalHits(limit, doi);
+			result = resolver.totalHits(limit, doi, from, to);
 		else
 			setStatus(Status.SERVER_ERROR_NOT_IMPLEMENTED, "Bizare request ignored");
 

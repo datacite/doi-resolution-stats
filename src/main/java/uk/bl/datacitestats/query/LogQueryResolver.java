@@ -1,5 +1,6 @@
 package uk.bl.datacitestats.query;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.common.base.Optional;
@@ -22,6 +23,6 @@ public interface LogQueryResolver {
 
 	public List<String> getAllDois();
 
-	public List<QueryResult> totalHits(int limit, Optional<String> prefixOrDOI);
+	public List<QueryResult> totalHits(int limit, Optional<String> prefixOrDOI, Optional<Date> from, Optional<Date> to);
 
 }

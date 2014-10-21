@@ -1,3 +1,7 @@
+.apilink{
+	font-size:80%;
+}
+
 .ajaxmodal {
 	display: none;
 	position: fixed;

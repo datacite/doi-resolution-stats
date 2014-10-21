@@ -1,5 +1,6 @@
 package uk.bl.datacitestats.mongo;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -61,13 +62,12 @@ public class MongoQueryResolver implements LogQueryResolver {
 		final List<DBObject> pipeline = Lists.newArrayList(buildMatch(prefix), projectYMDbyDOI, groupYMDbyDOI, sort);
 		return pipe(pipeline);
 	}
-
-	public List<QueryResult> totalHits(int limit, Optional<String> prefixOrDOI) {
-		if (prefixOrDOI.isPresent())
-			return pipe(Lists.newArrayList(buildMatch(prefixOrDOI.get()), groupTotalHits, sort, new BasicDBObject(
-					"$limit", limit)));
-		else
-			return pipe(Lists.newArrayList(groupTotalHits, sort, new BasicDBObject("$limit", limit)));
+	
+	
+	@Override
+	public List<QueryResult> totalHits(int limit, Optional<String> prefixOrDOI, Optional<Date> from, Optional<Date> to) {
+		return pipe(Lists.newArrayList(buildMatch(prefixOrDOI,from,to), groupTotalHits, sort, new BasicDBObject(
+				"$limit", limit)));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -97,7 +97,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 		return list;
 	}
 
-	private DBObject buildMatch(String prefix) {
+	private BasicDBObject buildMatch(String prefix) {
 		BasicDBObject doi;
 		if (prefix.contains("/")) {
 			doi = new BasicDBObject("doi", prefix);
@@ -106,6 +106,39 @@ public class MongoQueryResolver implements LogQueryResolver {
 			doi = new BasicDBObject("doi", o);
 		}
 		return new BasicDBObject("$match", doi);
+	}
+	
+	/*
+	private DBObject buildMatch(String prefix, Optional<Date> from, Optional<Date> to) {
+		BasicDBObject match = buildMatch(prefix);
+		if (from.isPresent() || to.isPresent()){
+			BasicDBObject range = new BasicDBObject();
+			if (from.isPresent())
+				range.append("$gt", from);
+			if (to.isPresent())
+				range.append("$lt", to);
+			((BasicDBObject)match.get("$match")).append("date", range);			
+		}
+		return match;
+	}*/
+	
+	private DBObject buildMatch(Optional<String> prefix,Optional<Date> from, Optional<Date> to) {
+		BasicDBObject match;
+		if (prefix.isPresent())
+			match = buildMatch(prefix.get());
+		else 
+			match = new BasicDBObject("$match",new BasicDBObject());
+			
+		if (from.isPresent() || to.isPresent()){
+			BasicDBObject range = new BasicDBObject();
+			if (from.isPresent())
+				range.append("$gt", from.get());
+			if (to.isPresent())
+				range.append("$lt", to.get());
+			((BasicDBObject)match.get("$match")).append("date", range);			
+		}
+		
+		return match;
 	}
 
 	// Mongo aggregation functions ============================================
