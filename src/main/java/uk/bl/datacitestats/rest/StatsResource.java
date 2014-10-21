@@ -225,6 +225,7 @@ public class StatsResource extends SelfInjectingServerResource {
 						map.put(d, 0);
 				}
 			}
+		// can we modify map here to make it take timezones into account?
 		// map.remove(map.lastKey());
 		return map;
 	}
