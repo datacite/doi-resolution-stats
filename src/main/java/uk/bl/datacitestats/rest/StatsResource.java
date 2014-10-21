@@ -22,6 +22,8 @@ import org.restlet.data.Status;
 import org.restlet.ext.guice.SelfInjectingServerResource;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.bl.datacitestats.query.LogQueryResolver;
 import uk.bl.datacitestats.query.QueryResult;
@@ -47,6 +49,8 @@ public class StatsResource extends SelfInjectingServerResource {
 
 	static Cache<String, List<QueryResult>> cache = CacheBuilder.newBuilder().expireAfterWrite(12, TimeUnit.HOURS)
 			.build();
+	
+	Logger log = LoggerFactory.getLogger(StatsResource.class);
 
 	@Inject
 	LogQueryResolver resolver;
@@ -94,16 +98,14 @@ public class StatsResource extends SelfInjectingServerResource {
 			}
 		}
 		if (this.getQueryValue("from") !=null) {
-			try {
-				from = Optional.of(df.parse(this.getQueryValue("from")));
-			} catch (ParseException e) {
-			}
+			log.info(this.getQueryValue("from"));
+			from = Optional.of(dateYMD.parseDateTime(this.getQueryValue("from")).toDate());
+			log.info(from.get().toString());
 		}
 		if (this.getQueryValue("to") !=null) {
-			try {
-				to = Optional.of(df.parse(this.getQueryValue("to")));
-			} catch (ParseException e) {
-			}
+			log.info(this.getQueryValue(""));
+			to = Optional.of(dateYMD.parseDateTime(this.getQueryValue("to")).toDate());
+			log.info(to.get().toString());
 		}
 		
 		if (suffix != null)

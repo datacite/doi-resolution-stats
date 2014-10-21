@@ -178,6 +178,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 	private static final DBObject groupTotalHits = new BasicDBObject("$group", new BasicDBObject("_id",
 			new BasicDBObject("doi", "$doi")).append("count", new BasicDBObject("$sum", 1)));
 
+
 	// can we make it two arrays, one ['jan14' etc], one count[], zero empty
 	// months?
 

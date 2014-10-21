@@ -3,6 +3,8 @@ package uk.bl.datacitestats.query;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.google.common.base.Optional;
 
 /** Main service interface for querying logs
