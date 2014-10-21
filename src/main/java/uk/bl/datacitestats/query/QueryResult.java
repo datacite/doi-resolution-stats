@@ -7,16 +7,18 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/** Query results, all fields nullable, nulls ignored when serialising.
+/**
+ * Query results, all fields nullable, nulls ignored when serialising.
  * 
  * @author tom
- *
+ * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "count", "year", "month", "day",  "doi" })
+@JsonPropertyOrder({ "count", "year", "month", "day", "doi" })
 public class QueryResult {
 
 	public static final Comparator<QueryResult> BY_DATE = new Comparator<QueryResult>() {
+		@Override
 		public int compare(QueryResult o1, QueryResult o2) {
 			return o1.toSimpleDate().compareTo(o2.toSimpleDate());
 		}
@@ -84,6 +86,7 @@ public class QueryResult {
 		this.doi = doi;
 	}
 
+	@Override
 	public String toString() {
 		ObjectMapper mapper = new ObjectMapper();
 		try {

@@ -16,10 +16,11 @@ import uk.bl.datacitestats.misc.DOIPrefixMapper;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Multimap;
 
-/** Simple resource that serves a DOI->Name mapping resource.
+/**
+ * Simple resource that serves a DOI->Name mapping resource.
  * 
  * @author tom
- *
+ * 
  */
 public class DatacentreDOIPrefixResource extends SelfInjectingServerResource {
 

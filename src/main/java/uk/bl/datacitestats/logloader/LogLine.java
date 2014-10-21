@@ -2,10 +2,11 @@ package uk.bl.datacitestats.logloader;
 
 import java.util.Date;
 
-/** Representation of a single log line
+/**
+ * Representation of a single log line
  * 
  * @author tom
- *
+ * 
  */
 public interface LogLine {
 	public Date getDate();

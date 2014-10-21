@@ -18,10 +18,11 @@ import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-/** Mongo implementation of the stats query resolver.  Uses Mongo Aggregations.
+/**
+ * Mongo implementation of the stats query resolver. Uses Mongo Aggregations.
  * 
  * @author tom
- *
+ * 
  */
 public class MongoQueryResolver implements LogQueryResolver {
 
@@ -39,6 +40,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 		this.db = db;
 	}
 
+	@Override
 	public List<QueryResult> monthly(Optional<String> prefix) {
 		if (prefix.isPresent())
 			return pipe(Lists.newArrayList(buildMatch(prefix.get()), projectYM, groupYM, sort));
@@ -46,6 +48,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 			return pipe(Lists.newArrayList(projectYM, groupYM, sort));
 	}
 
+	@Override
 	public List<QueryResult> daily(Optional<String> prefix) {
 		if (prefix.isPresent())
 			return pipe(Lists.newArrayList(buildMatch(prefix.get()), projectYMD, groupYMD, sort));
@@ -53,23 +56,25 @@ public class MongoQueryResolver implements LogQueryResolver {
 			return pipe(Lists.newArrayList(projectYMD, groupYMD, sort));
 	}
 
+	@Override
 	public List<QueryResult> monthlyPerDOI(String prefix) {
 		final List<DBObject> pipeline = Lists.newArrayList(buildMatch(prefix), projectYMbyDOI, groupYMbyDOI, sort);
 		return pipe(pipeline);
 	}
 
+	@Override
 	public List<QueryResult> dailyPerDOI(String prefix) {
 		final List<DBObject> pipeline = Lists.newArrayList(buildMatch(prefix), projectYMDbyDOI, groupYMDbyDOI, sort);
 		return pipe(pipeline);
 	}
-	
-	
+
 	@Override
 	public List<QueryResult> totalHits(int limit, Optional<String> prefixOrDOI, Optional<Date> from, Optional<Date> to) {
-		return pipe(Lists.newArrayList(buildMatch(prefixOrDOI,from,to), groupTotalHits, sort, new BasicDBObject(
+		return pipe(Lists.newArrayList(buildMatch(prefixOrDOI, from, to), groupTotalHits, sort, new BasicDBObject(
 				"$limit", limit)));
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<String> getAllDois() {
 		return connection.getClient().getDB(db).getCollection(collection).distinct("doi");
@@ -107,37 +112,33 @@ public class MongoQueryResolver implements LogQueryResolver {
 		}
 		return new BasicDBObject("$match", doi);
 	}
-	
+
 	/*
-	private DBObject buildMatch(String prefix, Optional<Date> from, Optional<Date> to) {
-		BasicDBObject match = buildMatch(prefix);
-		if (from.isPresent() || to.isPresent()){
-			BasicDBObject range = new BasicDBObject();
-			if (from.isPresent())
-				range.append("$gt", from);
-			if (to.isPresent())
-				range.append("$lt", to);
-			((BasicDBObject)match.get("$match")).append("date", range);			
-		}
-		return match;
-	}*/
-	
-	private DBObject buildMatch(Optional<String> prefix,Optional<Date> from, Optional<Date> to) {
+	 * private DBObject buildMatch(String prefix, Optional<Date> from,
+	 * Optional<Date> to) { BasicDBObject match = buildMatch(prefix); if
+	 * (from.isPresent() || to.isPresent()){ BasicDBObject range = new
+	 * BasicDBObject(); if (from.isPresent()) range.append("$gt", from); if
+	 * (to.isPresent()) range.append("$lt", to);
+	 * ((BasicDBObject)match.get("$match")).append("date", range); } return
+	 * match; }
+	 */
+
+	private DBObject buildMatch(Optional<String> prefix, Optional<Date> from, Optional<Date> to) {
 		BasicDBObject match;
 		if (prefix.isPresent())
 			match = buildMatch(prefix.get());
-		else 
-			match = new BasicDBObject("$match",new BasicDBObject());
-			
-		if (from.isPresent() || to.isPresent()){
+		else
+			match = new BasicDBObject("$match", new BasicDBObject());
+
+		if (from.isPresent() || to.isPresent()) {
 			BasicDBObject range = new BasicDBObject();
 			if (from.isPresent())
 				range.append("$gt", from.get());
 			if (to.isPresent())
 				range.append("$lt", to.get());
-			((BasicDBObject)match.get("$match")).append("date", range);			
+			((BasicDBObject) match.get("$match")).append("date", range);
 		}
-		
+
 		return match;
 	}
 
@@ -177,7 +178,6 @@ public class MongoQueryResolver implements LogQueryResolver {
 
 	private static final DBObject groupTotalHits = new BasicDBObject("$group", new BasicDBObject("_id",
 			new BasicDBObject("doi", "$doi")).append("count", new BasicDBObject("$sum", 1)));
-
 
 	// can we make it two arrays, one ['jan14' etc], one count[], zero empty
 	// months?

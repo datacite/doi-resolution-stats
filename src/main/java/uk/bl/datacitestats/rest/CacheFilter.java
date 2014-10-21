@@ -25,6 +25,7 @@ public class CacheFilter extends Filter {
 	/**
 	 * Sets the HTTP Headers if request was successful
 	 */
+	@Override
 	protected void afterHandle(Request request, Response response) {
 		super.afterHandle(request, response);
 		if (response != null && response.getEntity() != null) {

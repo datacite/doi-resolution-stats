@@ -5,9 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import uk.bl.datacitestats.mongo.MongoConnection;
 import uk.bl.datacitestats.mongo.MongoDAO;
 import uk.bl.datacitestats.mongo.MongoLogLoader;
@@ -15,8 +12,9 @@ import uk.bl.datacitestats.mongo.MongoLogLoader;
 import com.google.common.base.Stopwatch;
 
 /**
- * Will actually load the live database - this is more a script than a test.  Needs refactoring into an admin service
- * JUnit annotations commented out for now.
+ * Will actually load the live database - this is more a script than a test.
+ * Needs refactoring into an admin service JUnit annotations commented out for
+ * now.
  */
 public class LogMarshallerTest {
 
@@ -27,7 +25,7 @@ public class LogMarshallerTest {
 	private static String colname = "log";
 	LogMarshaller mar;
 
-	//@Before
+	// @Before
 	public void setup() throws UnknownHostException {
 		conn = new MongoConnection("localhost", 27017);
 		conn.getClient().getDB(dbname);
@@ -37,8 +35,7 @@ public class LogMarshallerTest {
 		mar = new LogMarshaller(loader, "/Users/tom/Desktop/datacite-stats/resources/cnri");
 	}
 
-
-	//@Test
+	// @Test
 	public void testMarshall() {
 		Stopwatch sw = Stopwatch.createStarted();
 		LogLoadReport report = mar.findAndParse();

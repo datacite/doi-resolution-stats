@@ -2,7 +2,6 @@ package uk.bl.datacitestats.rest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +35,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Maps;
 
-/** Resource that serves stats representations.  Caches results for 12 hours.
+/**
+ * Resource that serves stats representations. Caches results for 12 hours.
  * 
  * Expects {type},{prefix},{suffix} URI attributes - prefix and suffix are
  * optional type is in [hits,daily,monthly] daily and monthly can have
@@ -49,7 +49,7 @@ public class StatsResource extends SelfInjectingServerResource {
 
 	static Cache<String, List<QueryResult>> cache = CacheBuilder.newBuilder().expireAfterWrite(12, TimeUnit.HOURS)
 			.build();
-	
+
 	Logger log = LoggerFactory.getLogger(StatsResource.class);
 
 	@Inject
@@ -97,23 +97,24 @@ public class StatsResource extends SelfInjectingServerResource {
 				this.setStatus(Status.CLIENT_ERROR_BAD_REQUEST, "limit must be an integer");
 			}
 		}
-		if (this.getQueryValue("from") !=null) {
+		if (this.getQueryValue("from") != null) {
 			log.info(this.getQueryValue("from"));
 			from = Optional.of(dateYMD.parseDateTime(this.getQueryValue("from")).toDate());
 			log.info(from.get().toString());
 		}
-		if (this.getQueryValue("to") !=null) {
+		if (this.getQueryValue("to") != null) {
 			log.info(this.getQueryValue(""));
 			to = Optional.of(dateYMD.parseDateTime(this.getQueryValue("to")).toDate());
 			log.info(to.get().toString());
 		}
-		
+
 		if (suffix != null)
 			prefix += "/" + suffix;
 		doi = Optional.fromNullable(prefix);
 	}
 
-	/** Interprets request, queries back end, return result.  Simple.
+	/**
+	 * Interprets request, queries back end, return result. Simple.
 	 * 
 	 * @return
 	 */
@@ -154,13 +155,13 @@ public class StatsResource extends SelfInjectingServerResource {
 			this.setStatus(Status.CLIENT_ERROR_BAD_REQUEST, "cannot transform hits into a map");
 		return convert(this.getStats());
 	}
-	
+
 	/**
 	 * Zero filled map date->count
 	 * 
 	 * @return
 	 * @throws ParseException
-	 * @throws JsonProcessingException 
+	 * @throws JsonProcessingException
 	 */
 	@Get("?csv")
 	public StringRepresentation asCSVString() throws ParseException, JsonProcessingException {
@@ -168,13 +169,13 @@ public class StatsResource extends SelfInjectingServerResource {
 		List<QueryResult> list = this.getStats();
 		CsvSchema schema = mapper.schemaFor(QueryResult.class).withHeader();
 		StringRepresentation rep = new StringRepresentation(mapper.writer().withSchema(schema).writeValueAsString(list));
-		if (this.type != STAT_TYPE.HITS){
-			Collections.sort(list,QueryResult.BY_DATE);
+		if (this.type != STAT_TYPE.HITS) {
+			Collections.sort(list, QueryResult.BY_DATE);
 		}
 		rep.setMediaType(MediaType.TEXT_CSV);
 		return rep;
 	}
-	
+
 	@Get("csv")
 	public StringRepresentation asCSV() throws ParseException, JsonProcessingException {
 		return asCSVString();
@@ -223,7 +224,7 @@ public class StatsResource extends SelfInjectingServerResource {
 					map.put(d, 0);
 			}
 		}
-		//map.remove(map.lastKey());
+		// map.remove(map.lastKey());
 		return map;
 	}
 }

@@ -14,8 +14,9 @@ public class MongoDAO {
 	private String db;
 	private String collection;
 
-	/** Creates a (thread safe) DAO instance.
-	 * Ensures collection is indexed on (Date) and (DOI, Date)
+	/**
+	 * Creates a (thread safe) DAO instance. Ensures collection is indexed on
+	 * (Date) and (DOI, Date)
 	 * 
 	 * @param connection
 	 * @param db

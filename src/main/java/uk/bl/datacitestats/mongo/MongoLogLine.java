@@ -7,10 +7,11 @@ import uk.bl.datacitestats.logloader.LogLine;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-/** A specialised LogLine that can (de)serialise from/to a MongoDB object
+/**
+ * A specialised LogLine that can (de)serialise from/to a MongoDB object
  * 
  * @author tom
- *
+ * 
  */
 public class MongoLogLine implements LogLine {
 
@@ -30,34 +31,42 @@ public class MongoLogLine implements LogLine {
 		this.doi = (String) o.get("doi");
 	}
 
+	@Override
 	public Date getDate() {
 		return date;
 	}
 
+	@Override
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
+	@Override
 	public String getHost() {
 		return host;
 	}
 
+	@Override
 	public void setHost(String host) {
 		this.host = host;
 	}
 
+	@Override
 	public String getReferer() {
 		return referer;
 	}
 
+	@Override
 	public void setReferer(String referer) {
 		this.referer = referer;
 	}
 
+	@Override
 	public String getDoi() {
 		return doi;
 	}
 
+	@Override
 	public void setDoi(String doi) {
 		this.doi = doi;
 	}

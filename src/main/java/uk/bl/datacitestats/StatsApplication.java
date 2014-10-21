@@ -13,10 +13,12 @@ import uk.bl.datacitestats.rest.StatsResource;
 
 import com.google.inject.Guice;
 
-/** Main restlet application.  Inits the injector and creates routes.  Also sets up webjars
+/**
+ * Main restlet application. Inits the injector and creates routes. Also sets up
+ * webjars
  * 
  * @author tom
- *
+ * 
  */
 public class StatsApplication extends Application {
 

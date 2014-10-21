@@ -1,9 +1,10 @@
 package uk.bl.datacitestats.logloader;
 
-/** Report POJO returned after attepted LogLoad
+/**
+ * Report POJO returned after attepted LogLoad
  * 
  * @author tom
- *
+ * 
  */
 public class LogLoadReport {
 	private int linesAdded = 0;
