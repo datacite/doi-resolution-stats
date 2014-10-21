@@ -23,6 +23,9 @@ Return the top 100 DOIs of all time and their hit counts
 Return the top 1000 DOIs with the prefix 10.1234
 `api/stats/hits/10.1234?limit=1000`
 
+Return the top 1000 DOIs with the prefix 10.1234 between two dates
+`api/stats/hits/10.1234?limit=1000&from=2012-01-01&to=2014-01-01`
+
 Return daily stats for all datacite
 `api/stats/daily`
 
@@ -38,8 +41,14 @@ Return monthly stats for 10.1234 as a MAP
 Return monthly stats for 10.1234 broken down by doi
 `api/stats/daily/10.1234?breakdown=true`
 
+Return monthly stats for 10.1234 broken down by doi between two dates
+`api/stats/daily/10.1234?breakdown=true&from=2012-01-01&to=2014-01-01`
+
 In addition, a map of DOI prefixes -> Datacentre names is provided at
 `api/dois/prefixes`
+
+Adding a ?csv param to any of the above will return **CSV**
+`api/stats/hits?limit=100&from=2013-03-01&to=2014-09-01&csv`
 
 Issues
 ======
