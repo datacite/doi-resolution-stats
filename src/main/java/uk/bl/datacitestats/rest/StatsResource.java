@@ -209,21 +209,22 @@ public class StatsResource extends SelfInjectingServerResource {
 			}
 			map.put(d, q.getCount());
 		}
-		if (this.getAttribute("type").equals("daily")) {
-			int days = Days.daysBetween(map.firstKey(), map.lastKey()).getDays();
-			for (int i = 0; i <= days; i++) {
-				DateTime d = map.firstKey().plusDays(i);
-				if (!map.containsKey(d))
-					map.put(d, 0);
+		if (map.size()>0)
+			if (this.getAttribute("type").equals("daily")) {
+				int days = Days.daysBetween(map.firstKey(), map.lastKey()).getDays();
+				for (int i = 0; i <= days; i++) {
+					DateTime d = map.firstKey().plusDays(i);
+					if (!map.containsKey(d))
+						map.put(d, 0);
+				}
+			} else {
+				int months = Months.monthsBetween(map.firstKey(), map.lastKey()).getMonths();
+				for (int i = 0; i <= months; i++) {
+					DateTime d = map.firstKey().plusMonths(i);
+					if (!map.containsKey(d))
+						map.put(d, 0);
+				}
 			}
-		} else {
-			int months = Months.monthsBetween(map.firstKey(), map.lastKey()).getMonths();
-			for (int i = 0; i <= months; i++) {
-				DateTime d = map.firstKey().plusMonths(i);
-				if (!map.containsKey(d))
-					map.put(d, 0);
-			}
-		}
 		// map.remove(map.lastKey());
 		return map;
 	}

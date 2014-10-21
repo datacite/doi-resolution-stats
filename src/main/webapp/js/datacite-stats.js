@@ -17,11 +17,9 @@ var datacite = (function(){
 	self.initSpinner = function(){
 		$(document).on({
 			ajaxStart : function() {
-				console.log("ajax start");
 				//$("body").addClass("ajaxloading");
 			},
 			ajaxStop : function() {
-				console.log("ajax stop");
 				//$("body").removeClass("ajaxloading");
 			}
 		});
@@ -95,7 +93,6 @@ var datacite = (function(){
 		$(el).attr("data-slider-value","[0,"+(self.data.length-1)+"]");
 		
 		var formatter = function(value) {
-			console.log(value);
 			if (!value || !value[1] || !self.data[value[0]] || !self.data[value[1]])
 				return "";
 			var from  = moment(self.data[value[0]].x).format('Do MMM YY');
@@ -118,7 +115,7 @@ var datacite = (function(){
 			url = 'api/stats/' + self.period + '/' + self.doi + '?map';
 		else
 			url = 'api/stats/' + self.period + '?map';
-
+		$("body").addClass("ajaxloading");
 		$
 				.ajax({
 					url : url,
@@ -127,28 +124,24 @@ var datacite = (function(){
 					dataType : 'json',
 					async : false,
 					success : function(result) {
-						$('#linecharttitle')
-								.html(
-										self.title
-												+ "<small> " + self.period
-												+ ' <a class="apilink" href="'+url+'">json</a>'
-												+ ' <a class="apilink" href="'+url+'&csv">csv</a></small>');
+						$('#linecharttitle').html(self.title
+							+ "<small> " + self.period
+							+ ' <a class="apilink" href="'+url+'">json</a>'
+							+ ' <a class="apilink" href="'+url+'&csv">csv</a>'
+							+ ((self.doi)? ' <a class="apilink" href="'+url+'&csv&breakdown=true">csv-breakdown</a>':'')
+							+ '</small>');
 						$("#linechart").empty();
-						
 						self.data = [];
-
 						for ( var date in result) {
 							var d = new Date(date);
 							var o = {};
 							o.x = d;
 							o.y = result[date];
 							self.data.push(o);
-
 						}
-						console.log(self.data);
-						
 						self.createContour("#linechart", self.data);
 						self.createSlider("#dateslider");
+						$("body").removeClass("ajaxloading");
 					},
 					error : function(jq, textStatus, errorThrown) {
 					}
@@ -164,7 +157,6 @@ var datacite = (function(){
 			url = 'api/stats/hits?limit=100';
 		if (from && to){
 			url += '&from='+moment(from).format('YYYY-MM-DD')+"&to="+moment(to).format('YYYY-MM-DD');
-			console.log(url);
 		}
 		$("#hitstable").empty();
 		$("#daterange").empty();
