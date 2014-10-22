@@ -137,7 +137,7 @@ public class StatsResource extends SelfInjectingServerResource {
 		else
 			setStatus(Status.SERVER_ERROR_NOT_IMPLEMENTED, "Bizare request ignored");
 
-		cache.put(getRequest().getResourceRef().toString(), result);
+		//cache.put(getRequest().getResourceRef().toString(), result);
 		return result;
 	}
 

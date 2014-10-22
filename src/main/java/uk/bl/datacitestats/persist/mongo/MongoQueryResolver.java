@@ -3,6 +3,7 @@ package uk.bl.datacitestats.persist.mongo;
 import java.util.Date;
 import java.util.List;
 
+import javax.cache.annotation.CacheResult;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -28,9 +29,9 @@ public class MongoQueryResolver implements LogQueryResolver {
 
 	Logger logger = LoggerFactory.getLogger(MongoQueryResolver.class);
 
-	private MongoConnection connection;
-	private String db;
-	private String collection;
+	private final MongoConnection connection;
+	private final String db;
+	private final String collection;
 
 	@Inject
 	public MongoQueryResolver(MongoConnection connection, @Named("mongo.log.db") String db,
@@ -41,6 +42,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 	}
 
 	@Override
+	@CacheResult(cacheName = "monthly")
 	public List<QueryResult> monthly(Optional<String> prefix) {
 		if (prefix.isPresent())
 			return pipe(Lists.newArrayList(buildMatch(prefix.get()), projectYM, groupYM, sort));
@@ -49,6 +51,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 	}
 
 	@Override
+	@CacheResult(cacheName = "daily")
 	public List<QueryResult> daily(Optional<String> prefix) {
 		if (prefix.isPresent())
 			return pipe(Lists.newArrayList(buildMatch(prefix.get()), projectYMD, groupYMD, sort));
@@ -69,6 +72,8 @@ public class MongoQueryResolver implements LogQueryResolver {
 	}
 
 	@Override
+	//@CacheResult(cacheName = "totalhits")
+	@CacheResult(cacheName = "hits")
 	public List<QueryResult> totalHits(int limit, Optional<String> prefixOrDOI, Optional<Date> from, Optional<Date> to) {
 		return pipe(Lists.newArrayList(buildMatch(prefixOrDOI, from, to), groupTotalHits, sort, new BasicDBObject(
 				"$limit", limit)));
@@ -76,6 +81,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 
 	@Override
 	@SuppressWarnings("unchecked")
+	@CacheResult(cacheName = "alldois")
 	public List<String> getAllDois() {
 		return connection.getClient().getDB(db).getCollection(collection).distinct("doi");
 	}

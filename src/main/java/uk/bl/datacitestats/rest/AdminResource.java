@@ -79,26 +79,35 @@ public class AdminResource extends SelfInjectingServerResource{
 		}
 		switch(action.get()){
 			case RELOAD:{
-				if (lock.compareAndSet(false, true)){
-				    ListenableFuture<LogLoadReport> listenableFuture = executor.submit(reload);				 
-				    Futures.addCallback(listenableFuture, new FutureCallback<LogLoadReport>() {
-				        public void onSuccess(LogLoadReport result) {
-				        	latestReport = result;
-				        	log.info("reloaded logs "+result);
-				        	lock.set(false);
-				        }
-				        public void onFailure(Throwable thrown) {
-				        	latestReport = null;
-				        	log.info("reloaded log failiure",thrown);
-				        	lock.set(false);
-				        }
-				    });
-					this.setStatus(Status.SUCCESS_ACCEPTED);
-				}else{
-					this.setStatus(Status.INFO_PROCESSING);
-				}
+				reload();
 			}
 		}
 	}
 
+	private void reload(){
+		if (lock.compareAndSet(false, true)){
+			/*
+		    CachingProvider provider = Caching.getCachingProvider();
+		    CacheManager manager = provider.getCacheManager();
+		    for (String c :manager.getCacheNames()){
+		    	manager.getCache(c).removeAll();
+		    }*/
+		    ListenableFuture<LogLoadReport> listenableFuture = executor.submit(reload);				 
+		    Futures.addCallback(listenableFuture, new FutureCallback<LogLoadReport>() {
+		        public void onSuccess(LogLoadReport result) {
+		        	latestReport = result;
+		        	log.info("reloaded logs "+result);
+		        	lock.set(false);
+		        }
+		        public void onFailure(Throwable thrown) {
+		        	latestReport = null;
+		        	log.info("reloaded log failiure",thrown);
+		        	lock.set(false);
+		        }
+		    });
+			this.setStatus(Status.SUCCESS_ACCEPTED);
+		}else{
+			this.setStatus(Status.INFO_PROCESSING);
+		}
+	}
 }

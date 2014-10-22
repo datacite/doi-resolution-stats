@@ -5,14 +5,16 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 
 @Singleton
 public class MongoDAO {
 
-	private MongoConnection connection;
-	private String db;
-	private String collection;
+	private final MongoConnection connection;
+	private final String db;
+	private final String collection;
+
 
 	/**
 	 * Creates a (thread safe) DAO instance. Ensures collection is indexed on
@@ -23,7 +25,7 @@ public class MongoDAO {
 	 * @param collection
 	 */
 	@Inject
-	public MongoDAO(MongoConnection connection, @Named("mongo.log.db") String db,
+	public MongoDAO(MongoConnection connection, @Named("mongo.log.db") String db, 
 			@Named("mongo.log.collection") String collection) {
 		this.connection = connection;
 		this.collection = collection;
@@ -42,4 +44,5 @@ public class MongoDAO {
 		connection.getClient().getDB(db).getCollection(collection)
 				.insert(line.toDBObject(), WriteConcern.UNACKNOWLEDGED);
 	}
+	
 }

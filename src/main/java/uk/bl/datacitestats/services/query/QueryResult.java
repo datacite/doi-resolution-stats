@@ -1,5 +1,6 @@
 package uk.bl.datacitestats.services.query;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,7 +16,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "count", "year", "month", "day", "doi" })
-public class QueryResult {
+public class QueryResult implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static final Comparator<QueryResult> BY_DATE = new Comparator<QueryResult>() {
 		@Override
