@@ -5,7 +5,6 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 
 @Singleton

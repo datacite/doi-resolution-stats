@@ -113,6 +113,7 @@
 		    <artifactId>bootstrap-slider</artifactId>
 		    <version>4.0.1</version>
 		</dependency>
+	
 		
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
@@ -124,7 +125,7 @@
 			<groupId>javax.cache.implementation</groupId>
 			<artifactId>cache-annotations-ri-guice</artifactId>
 			<version>0.5</version>
-		</dependency>
+		</dependency>	
 		
 	</dependencies>
 	<build>

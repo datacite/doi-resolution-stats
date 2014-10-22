@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -30,7 +31,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Maps;
 
 /**
@@ -44,6 +46,9 @@ import com.google.common.collect.Maps;
  */
 
 public class StatsResource extends SelfInjectingServerResource {
+
+	static Cache<String, List<QueryResult>> cache = CacheBuilder.newBuilder().expireAfterWrite(12, TimeUnit.HOURS)
+			.build();
 
 	Logger log = LoggerFactory.getLogger(StatsResource.class);
 
@@ -115,7 +120,7 @@ public class StatsResource extends SelfInjectingServerResource {
 	 */
 	@Get("json")
 	public List<QueryResult> getStats() {
-		List<QueryResult> result = Lists.newArrayList();
+		List<QueryResult> result = cache.getIfPresent(getRequest().getResourceRef().toString());
 		if (result != null)
 			return result;
 
@@ -132,6 +137,7 @@ public class StatsResource extends SelfInjectingServerResource {
 		else
 			setStatus(Status.SERVER_ERROR_NOT_IMPLEMENTED, "Bizare request ignored");
 
+		//cache.put(getRequest().getResourceRef().toString(), result);
 		return result;
 	}
 

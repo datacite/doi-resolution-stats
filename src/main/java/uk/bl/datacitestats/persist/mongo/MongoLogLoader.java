@@ -2,7 +2,6 @@ package uk.bl.datacitestats.persist.mongo;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -16,7 +15,6 @@ import uk.bl.datacitestats.services.loader.DataciteLogParser;
 import uk.bl.datacitestats.services.loader.LogLoadReport;
 import uk.bl.datacitestats.services.loader.LogLoader;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 @Singleton

@@ -1,6 +1,8 @@
 package uk.bl.datacitestats;
 
 
+import javax.cache.annotation.impl.guice.module.CacheAnnotationsModule;
+
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.ext.guice.SelfInjectingServerResourceModule;
@@ -27,7 +29,7 @@ public class StatsApplication extends Application {
 	@Override
 	public Restlet createInboundRoot() {
 		Guice.createInjector(new GuiceConfigModule(getContext().getParameters()),
-				new SelfInjectingServerResourceModule(),new javax.cache.annotation.impl.guice.module.CacheAnnotationsModule());
+				new SelfInjectingServerResourceModule(),new CacheAnnotationsModule());
 		Router root = new Router(this.getContext());
 		root.attach("/stats/{type}", StatsResource.class);
 		root.attach("/stats/{type}/{prefix}", StatsResource.class);
