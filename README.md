@@ -60,6 +60,8 @@ Logs are provided in UTC and EST timezones.  Mongo stores them all as UTC.  The 
 
 The issue is that logs provided in "monthly" blocks equate to different stretches of time!  This means over/underlaps of data at the beginning and end of the first and most recent month.  There is little we can do about this when querying but does mean the last day of the most recent month is WRONG.  Answers on a postcard.  It also makes unit testing a pain.  If it was simply a different timezone per user we could work this out, but it's not.
 
+A further complication is that CNRI logs ommited the first 12 hours of every month throughout 2013.  Also, date formats have changed in logs since sep 2014.
+
 Slow first request
 ------------------
 
@@ -69,7 +71,5 @@ TODO
 ----
 
 * FIX TIMEZONE issues detailed above...
-* Implement CSV & XML content types
-* Implement a date slider to restrict view
 * Provide an admin servlet that fires off bulk load jobs.  Currently run via junit script.
 * Live fetch (and cache in the db) datacite customer prefixes & display names.  Currently parsed from a static JSON file.

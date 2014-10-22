@@ -5,10 +5,10 @@ import org.restlet.util.Series;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.bl.datacitestats.logloader.LogLoader;
-import uk.bl.datacitestats.mongo.MongoLogLoader;
-import uk.bl.datacitestats.mongo.MongoQueryResolver;
-import uk.bl.datacitestats.query.LogQueryResolver;
+import uk.bl.datacitestats.persist.mongo.MongoLogLoader;
+import uk.bl.datacitestats.persist.mongo.MongoQueryResolver;
+import uk.bl.datacitestats.services.loader.LogLoader;
+import uk.bl.datacitestats.services.query.LogQueryResolver;
 
 import com.google.common.collect.Sets;
 import com.google.inject.AbstractModule;
@@ -64,7 +64,7 @@ public class GuiceConfigModule extends AbstractModule {
 
 		bind(String.class).annotatedWith(Names.named("log.root.path")).toInstance(
 				"/Users/tom/Desktop/datacitestats/cnri");
-		String[] ignoreip = { "131.180.162.34" };
+		String[] ignoreip = { "131.180.162.34", "188.220.246.245","46.137.86.193", "131.180.77.111" };;
 		bind(String[].class).annotatedWith(Names.named("log.ignoreip")).toInstance(ignoreip);
 
 		bind(LogLoader.class).to(MongoLogLoader.class);

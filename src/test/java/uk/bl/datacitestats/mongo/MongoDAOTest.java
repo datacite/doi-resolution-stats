@@ -9,6 +9,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import uk.bl.datacitestats.persist.mongo.MongoConnection;
+import uk.bl.datacitestats.persist.mongo.MongoDAO;
+import uk.bl.datacitestats.persist.mongo.MongoLogLine;
+import uk.bl.datacitestats.persist.mongo.MongoLogLoader;
+
 import com.mongodb.DBObject;
 
 public class MongoDAOTest {

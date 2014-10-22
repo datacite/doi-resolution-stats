@@ -2,6 +2,7 @@ package uk.bl.datacitestats.mongo;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.UnknownHostException;
 
@@ -9,7 +10,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.bl.datacitestats.logloader.DataciteLogParser;
+import uk.bl.datacitestats.persist.mongo.MongoConnection;
+import uk.bl.datacitestats.persist.mongo.MongoDAO;
+import uk.bl.datacitestats.persist.mongo.MongoLogLine;
+import uk.bl.datacitestats.persist.mongo.MongoLogLoader;
+import uk.bl.datacitestats.services.loader.DataciteLogParser;
 
 public class MongoLogLoaderTest {
 
@@ -34,7 +39,7 @@ public class MongoLogLoaderTest {
 	}
 
 	@Test
-	public void testFileLoad() {
+	public void testFileLoad() throws IOException {
 		InputStream s = this.getClass().getResourceAsStream("/test.log.anon");
 		System.out.println(loader.load(s));
 		// non dupliocate lines...

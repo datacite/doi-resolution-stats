@@ -6,7 +6,9 @@ import java.text.ParseException;
 
 import org.junit.Test;
 
-import uk.bl.datacitestats.mongo.MongoLogLine;
+import uk.bl.datacitestats.persist.mongo.MongoLogLine;
+import uk.bl.datacitestats.services.loader.DataciteLogParser;
+import uk.bl.datacitestats.services.loader.LogLine;
 
 public class DataciteLogParserTest {
 

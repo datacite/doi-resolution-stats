@@ -2,13 +2,18 @@ package uk.bl.datacitestats.mongo;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.UnknownHostException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.bl.datacitestats.logloader.DataciteLogParser;
+import uk.bl.datacitestats.persist.mongo.MongoConnection;
+import uk.bl.datacitestats.persist.mongo.MongoDAO;
+import uk.bl.datacitestats.persist.mongo.MongoLogLoader;
+import uk.bl.datacitestats.persist.mongo.MongoQueryResolver;
+import uk.bl.datacitestats.services.loader.DataciteLogParser;
 
 /** Timezone issue due to provided data mismatches */
 public class MongoQueryResolverTest {
@@ -18,7 +23,7 @@ public class MongoQueryResolverTest {
 	private static MongoQueryResolver resolver;
 
 	@BeforeClass
-	public static void setup() throws UnknownHostException {
+	public static void setup() throws IOException {
 		conn = new MongoConnection("localhost", 27017);
 		conn.getClient().dropDatabase(dbname);
 		resolver = new MongoQueryResolver(conn, dbname, colname);
