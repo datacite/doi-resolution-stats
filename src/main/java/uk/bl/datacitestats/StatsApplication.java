@@ -1,8 +1,7 @@
 package uk.bl.datacitestats;
 
 
-import javax.cache.annotation.impl.guice.module.CacheAnnotationsModule;
-
+import org.jsr107.ri.annotations.guice.module.CacheAnnotationsModule;
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.ext.guice.SelfInjectingServerResourceModule;

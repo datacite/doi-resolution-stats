@@ -1,5 +1,10 @@
 package uk.bl.datacitestats;
 
+import java.util.concurrent.TimeUnit;
+
+import javax.cache.Cache;
+import javax.cache.Caching;
+
 import org.restlet.data.Parameter;
 import org.restlet.util.Series;
 import org.slf4j.Logger;
@@ -66,6 +71,16 @@ public class GuiceConfigModule extends AbstractModule {
 				"/Users/tom/Desktop/datacitestats/cnri");
 		String[] ignoreip = { "131.180.162.34", "188.220.246.245","46.137.86.193", "131.180.77.111" };;
 		bind(String[].class).annotatedWith(Names.named("log.ignoreip")).toInstance(ignoreip);
+		
+/*		
+		Caching.getCachingProvider().getCacheManager()..createCacheBuilder("monthly").setExpiry(ExpiryType.MODIFIED, Duration.ETERNAL).build();
+		Caching.getCacheManager().createCacheBuilder("daily").setExpiry(ExpiryType.MODIFIED, Duration.ETERNAL).build();
+		Caching.getCacheManager().createCacheBuilder("hits").setExpiry(ExpiryType.MODIFIED, Duration.ETERNAL).build();
+	*/	
+				 /*
+		            .setExpiry(CacheConfiguration.ExpiryType.MODIFIED, new Duration(TimeUnit.MINUTES, 10))
+		            .setStoreByValue(false)
+		            .build();*/
 
 		bind(LogLoader.class).to(MongoLogLoader.class);
 		bind(LogQueryResolver.class).to(MongoQueryResolver.class);

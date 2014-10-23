@@ -42,7 +42,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 	}
 
 	@Override
-	@CacheResult(cacheName = "qmonthly")
+	@CacheResult(cacheName = "monthly")
 	public List<QueryResult> monthly(Optional<String> prefix) {
 		if (prefix.isPresent())
 			return pipe(Lists.newArrayList(buildMatch(prefix.get()), projectYM, groupYM, sort));
@@ -51,7 +51,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 	}
 
 	@Override
-	@CacheResult(cacheName = "qdaily")
+	@CacheResult(cacheName = "daily")
 	public List<QueryResult> daily(Optional<String> prefix) {
 		if (prefix.isPresent())
 			return pipe(Lists.newArrayList(buildMatch(prefix.get()), projectYMD, groupYMD, sort));
@@ -72,8 +72,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 	}
 
 	@Override
-	//@CacheResult(cacheName = "totalhits")
-	//@CacheResult(cacheName = "hits")
+	@CacheResult(cacheName = "hits")
 	public List<QueryResult> totalHits(int limit, Optional<String> prefixOrDOI, Optional<Date> from, Optional<Date> to) {
 		return pipe(Lists.newArrayList(buildMatch(prefixOrDOI, from, to), groupTotalHits, sort, new BasicDBObject(
 				"$limit", limit)));
@@ -81,7 +80,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	//@CacheResult(cacheName = "alldois")
+	@CacheResult(cacheName = "alldois")
 	public List<String> getAllDois() {
 		return connection.getClient().getDB(db).getCollection(collection).distinct("doi");
 	}
