@@ -94,6 +94,8 @@ public class DataciteLogParser {
 					logline.setReferer(line.get(8));
 				//see https://github.com/datacite/doi-resolution-report/blob/master/report.py
 				//line 4 is success. if !=1 then not found in DOI database
+				if (line.get(4).equals(1))
+					logline.setExists(true);
 				return logline;
 			} catch (InstantiationException | IllegalAccessException e) {
 				throw new RuntimeException("Problem instantiating LogLine",e);
