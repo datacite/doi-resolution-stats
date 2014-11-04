@@ -71,6 +71,10 @@ public class MongoQueryResolverTest {
 	@Test
 	public void testmonthlyPerDOI() throws UnknownHostException {
 		assertEquals(7,resolver.monthlyPerDOI("10.6084/m9.figshare.886165").get(0).getCount().intValue());
+		int count = 0;
+		for (QueryResult q : resolver.monthlyPerDOI("10.6084/m9.figshare.918607"))
+			count += q.getCount();
+		assertEquals(53,count);	
 	}
 	
 	@Test
