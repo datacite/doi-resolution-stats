@@ -32,6 +32,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 	private final MongoConnection connection;
 	private final String db;
 	private final String collection;
+	
 
 	@Inject
 	public MongoQueryResolver(MongoConnection connection, @Named("mongo.log.db") String db,
@@ -40,7 +41,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 		this.collection = collection;
 		this.db = db;
 	}
-
+	
 	@Override
 	@CacheResult(cacheName = "monthly")
 	public List<QueryResult> monthly(Optional<String> prefix) {
@@ -112,7 +113,7 @@ public class MongoQueryResolver implements LogQueryResolver {
 		if (prefix.contains("/")) {
 			doi = new BasicDBObject("doi", prefix);
 		} else {
-			BasicDBObject o = new BasicDBObject("$gt", prefix + "/").append("$lt", prefix + "/ZZZZZZZZZZZ");
+			BasicDBObject o = new BasicDBObject("$gt", prefix + "/").append("$lt", prefix + "z");
 			doi = new BasicDBObject("doi", o);
 		}
 		return new BasicDBObject("$match", doi);

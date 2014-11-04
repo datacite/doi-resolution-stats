@@ -24,4 +24,7 @@ public interface LogLine {
 	public String getDoi();
 
 	public void setDoi(String doi);
+	
+	public boolean getExists();
+	public void setExists(Boolean exists);
 }

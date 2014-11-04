@@ -89,8 +89,11 @@ public class DataciteLogParser {
 				logline.setHost(line.get(0));
 				logline.setDate(dataciteDate.parse(line.get(2)));
 				logline.setDoi(line.get(6));
+
 				if (line.size() > 8)
 					logline.setReferer(line.get(8));
+				//see https://github.com/datacite/doi-resolution-report/blob/master/report.py
+				//line 4 is success. if !=1 then not found in DOI database
 				return logline;
 			} catch (InstantiationException | IllegalAccessException e) {
 				throw new RuntimeException("Problem instantiating LogLine",e);

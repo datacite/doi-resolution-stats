@@ -37,13 +37,13 @@ public class LogMarshallerTest {
 		//conn.getClient().dropDatabase(dbname);
 		conn.getClient().getDB(dbname);
 		dao = new MongoDAO(conn, dbname, colname);
-		String[] ignore = new String[] { "131.180.162.34", "188.220.246.245","46.137.86.193", "131.180.77.111" };
+		String[] ignore = new String[] {};// "131.180.162.34", "188.220.246.245","46.137.86.193", "131.180.77.111" };
 		loader = new MongoLogLoader(dao, new DataciteLogParser(), ignore);
 		mar = new LogMarshaller(loader, "/Users/tom/Desktop/datacite-stats/resources/cnri");
 		mar = new LogMarshaller(loader, "/Users/tom/Desktop/datacite-stats/cnrigz");
 	}
 
-	@Test
+	//@Test
 	public void testMarshall() {
 		Stopwatch sw = Stopwatch.createStarted();
 		LogLoadReport report = mar.findAndParse();

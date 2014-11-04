@@ -19,6 +19,7 @@ public class MongoLogLine implements LogLine {
 	private String host;
 	private String referer;
 	private String doi;
+	private boolean exists = true;
 
 	public MongoLogLine() {
 
@@ -29,6 +30,7 @@ public class MongoLogLine implements LogLine {
 		this.host = (String) o.get("h");
 		this.referer = (String) o.get("r");
 		this.doi = (String) o.get("doi");
+		this.exists = (boolean) o.get("e");
 	}
 
 	@Override
@@ -67,8 +69,11 @@ public class MongoLogLine implements LogLine {
 	}
 
 	@Override
+	/** Sets the doi to lower case (dois are case insensitive)
+	 * 
+	 */
 	public void setDoi(String doi) {
-		this.doi = doi;
+		this.doi = doi.toLowerCase();
 	}
 
 	public DBObject toDBObject() {
@@ -81,7 +86,18 @@ public class MongoLogLine implements LogLine {
 			o.append("r", referer);
 		if (host != null)
 			o.append("h", host);
+		o.append("e", exists);
 		return o;
+	}
+
+	@Override
+	public boolean getExists() {
+		return this.exists;
+	}
+
+	@Override
+	public void setExists(Boolean exists) {
+		this.exists=exists;
 	}
 
 	@Override
@@ -90,6 +106,7 @@ public class MongoLogLine implements LogLine {
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((doi == null) ? 0 : doi.hashCode());
+		result = prime * result + (exists ? 1231 : 1237);
 		result = prime * result + ((host == null) ? 0 : host.hashCode());
 		result = prime * result + ((referer == null) ? 0 : referer.hashCode());
 		return result;
@@ -113,6 +130,8 @@ public class MongoLogLine implements LogLine {
 			if (other.doi != null)
 				return false;
 		} else if (!doi.equals(other.doi))
+			return false;
+		if (exists != other.exists)
 			return false;
 		if (host == null) {
 			if (other.host != null)

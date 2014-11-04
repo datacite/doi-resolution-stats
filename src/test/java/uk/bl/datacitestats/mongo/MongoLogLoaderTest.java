@@ -15,6 +15,7 @@ import uk.bl.datacitestats.persist.mongo.MongoDAO;
 import uk.bl.datacitestats.persist.mongo.MongoLogLine;
 import uk.bl.datacitestats.persist.mongo.MongoLogLoader;
 import uk.bl.datacitestats.services.loader.DataciteLogParser;
+import uk.bl.datacitestats.services.loader.LogLoadReport;
 
 public class MongoLogLoaderTest {
 
@@ -38,15 +39,19 @@ public class MongoLogLoaderTest {
 		conn.getClient().dropDatabase(dbname);
 	}
 
+	//69398 lines!
+	//68786 success , 612 duplicates
 	@Test
 	public void testFileLoad() throws IOException {
 		InputStream s = this.getClass().getResourceAsStream("/test.log.anon");
-		System.out.println(loader.load(s));
-		// non dupliocate lines...
-		assertEquals(conn.getClient().getDB(dbname).getCollection(colname).count(), 34593);
+		LogLoadReport report = loader.load(s);
+		System.out.println(report);
+		assertEquals(69398,report.getLinesAdded()+report.getLinesFailed()+report.getLinesIgnored());
+		assertEquals(69398,report.getLinesAdded());
+		assertEquals(conn.getClient().getDB(dbname).getCollection(colname).count(), report.getLinesAdded());
 		MongoLogLine query = new MongoLogLine();
 		query.setDoi("10.6084/m9.figshare.886165");
-		assertEquals(conn.getClient().getDB(dbname).getCollection(colname).find(query.toDBObject()).count(), 3);
+		assertEquals(conn.getClient().getDB(dbname).getCollection(colname).find(query.toDBObject()).count(), 7);
 	}
 
 }

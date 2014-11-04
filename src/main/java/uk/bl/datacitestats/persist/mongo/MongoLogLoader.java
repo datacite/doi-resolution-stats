@@ -50,12 +50,15 @@ public class MongoLogLoader implements LogLoader {
 		
 		LogLoadReport report = new LogLoadReport();
 		try {
+			int count = 0;
 			LineIterator it = IOUtils.lineIterator(logfile, "UTF-8");
 			while (it.hasNext()) {
+				count++;
 				try {
-					MongoLogLine line = parser.parse(MongoLogLine.class, it.nextLine());
+					String lineString = it.nextLine();
+					MongoLogLine line = parser.parse(MongoLogLine.class, lineString);
 					if (!ignore.contains(line.getHost())) {
-						dao.putLine(parser.parse(MongoLogLine.class, it.nextLine()));
+						dao.putLine(parser.parse(MongoLogLine.class, lineString));
 						report.setLinesAdded(report.getLinesAdded() + 1);
 					} else
 						report.setLinesIgnored(report.getLinesIgnored() + 1);
@@ -63,6 +66,7 @@ public class MongoLogLoader implements LogLoader {
 					report.logError(e);
 				}
 			}
+			System.out.println("count "+count); //only doing every other line? FFS
 		} catch (IOException e) {
 			throw e;
 		} finally {

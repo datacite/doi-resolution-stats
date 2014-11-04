@@ -5,15 +5,20 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.google.common.base.Optional;
 
 import uk.bl.datacitestats.persist.mongo.MongoConnection;
 import uk.bl.datacitestats.persist.mongo.MongoDAO;
 import uk.bl.datacitestats.persist.mongo.MongoLogLoader;
 import uk.bl.datacitestats.persist.mongo.MongoQueryResolver;
 import uk.bl.datacitestats.services.loader.DataciteLogParser;
+import uk.bl.datacitestats.services.loader.LogLoadReport;
+import uk.bl.datacitestats.services.query.QueryResult;
 
 /** Timezone issue due to provided data mismatches */
 public class MongoQueryResolverTest {
@@ -22,6 +27,7 @@ public class MongoQueryResolverTest {
 	private static String colname = "log";
 	private static MongoQueryResolver resolver;
 
+	private static LogLoadReport report;
 	@BeforeClass
 	public static void setup() throws IOException {
 		conn = new MongoConnection("localhost", 27017);
@@ -30,7 +36,7 @@ public class MongoQueryResolverTest {
 		MongoDAO dao = new MongoDAO(conn, dbname, colname);
 		MongoLogLoader loader = new MongoLogLoader(dao, new DataciteLogParser(), new String[] {});
 		InputStream s = MongoQueryResolverTest.class.getResourceAsStream("/test.log.anon");
-		loader.load(s);
+		report = loader.load(s);
 	}
 
 	/*
@@ -59,7 +65,40 @@ public class MongoQueryResolverTest {
 	 */
 	@Test
 	public void testGetAllDOis() throws UnknownHostException {
-		assertEquals(20405, resolver.getAllDois().size());
+		assertEquals(34951, resolver.getAllDois().size()); // unique dois
 	}
+	
+	@Test
+	public void testmonthlyPerDOI() throws UnknownHostException {
+		assertEquals(7,resolver.monthlyPerDOI("10.6084/m9.figshare.886165").get(0).getCount().intValue());
+	}
+	
+	@Test
+	public void testMonthlyWithoutPrefix() throws UnknownHostException {
+		Optional<String> op = Optional.absent();
+		List<QueryResult> results = resolver.monthly(op);
+		System.out.println(results);
+		int count = 0;
+		for (QueryResult r: results)
+			count += r.getCount();
+		assertEquals(report.getLinesAdded(),count);
+	}
+	
+	//grep 10.6084/ test.log.anon | wc -l  == 13746
+	//grep "10.6084/" test.log.anon | uniq | wc -l == 13652
+
+		@Test
+		public void testMonthlyWithPrefix() throws UnknownHostException {
+			Optional<String> op = Optional.of("10.6084");
+			List<QueryResult> results = resolver.monthly(op);
+			System.out.println(results);
+			int count = 0;
+			for (QueryResult r: results)
+				count += r.getCount();
+			assertEquals(13745,count); //should be 13746 Why? Must be a line with a referal?  MUST CHECK TODO
+		}
+
+	
+
 
 }

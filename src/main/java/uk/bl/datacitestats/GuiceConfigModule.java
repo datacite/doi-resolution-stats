@@ -1,10 +1,5 @@
 package uk.bl.datacitestats;
 
-import java.util.concurrent.TimeUnit;
-
-import javax.cache.Cache;
-import javax.cache.Caching;
-
 import org.restlet.data.Parameter;
 import org.restlet.util.Series;
 import org.slf4j.Logger;
@@ -14,7 +9,9 @@ import uk.bl.datacitestats.persist.mongo.MongoLogLoader;
 import uk.bl.datacitestats.persist.mongo.MongoQueryResolver;
 import uk.bl.datacitestats.services.loader.LogLoader;
 import uk.bl.datacitestats.services.query.LogQueryResolver;
+import uk.bl.datacitestats.services.query.QueryResult;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
@@ -33,7 +30,7 @@ public class GuiceConfigModule extends AbstractModule {
 	public static final String KEY_MONGO_COLLECTION = "mongo.log.collection";
 	public static final String KEY_MONGO_HOST = "mongoHost";
 	public static final String KEY_MONGO_PORT = "mongoPort";
-
+	
 	private String db = "dcstats";
 	private String col = "log";
 	private String host = "localhost";
@@ -66,22 +63,12 @@ public class GuiceConfigModule extends AbstractModule {
 		bind(String.class).annotatedWith(Names.named(KEY_MONGO_COLLECTION)).toInstance(col);
 		bind(String.class).annotatedWith(Names.named(KEY_MONGO_HOST)).toInstance(host);
 		bind(String.class).annotatedWith(Names.named(KEY_MONGO_PORT)).toInstance(port);
-
+		
 		bind(String.class).annotatedWith(Names.named("log.root.path")).toInstance(
 				"/Users/tom/Desktop/datacitestats/cnri");
 		String[] ignoreip = { "131.180.162.34", "188.220.246.245","46.137.86.193", "131.180.77.111" };;
 		bind(String[].class).annotatedWith(Names.named("log.ignoreip")).toInstance(ignoreip);
-		
-/*		
-		Caching.getCachingProvider().getCacheManager()..createCacheBuilder("monthly").setExpiry(ExpiryType.MODIFIED, Duration.ETERNAL).build();
-		Caching.getCacheManager().createCacheBuilder("daily").setExpiry(ExpiryType.MODIFIED, Duration.ETERNAL).build();
-		Caching.getCacheManager().createCacheBuilder("hits").setExpiry(ExpiryType.MODIFIED, Duration.ETERNAL).build();
-	*/	
-				 /*
-		            .setExpiry(CacheConfiguration.ExpiryType.MODIFIED, new Duration(TimeUnit.MINUTES, 10))
-		            .setStoreByValue(false)
-		            .build();*/
-
+				
 		bind(LogLoader.class).to(MongoLogLoader.class);
 		bind(LogQueryResolver.class).to(MongoQueryResolver.class);
 	}
