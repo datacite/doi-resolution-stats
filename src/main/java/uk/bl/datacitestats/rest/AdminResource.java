@@ -4,6 +4,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.spi.CachingProvider;
 import javax.inject.Inject;
 
 import org.restlet.data.Status;
@@ -85,12 +88,12 @@ public class AdminResource extends SelfInjectingServerResource{
 
 	private void reload(){
 		if (lock.compareAndSet(false, true)){
-			/*
+			
 		    CachingProvider provider = Caching.getCachingProvider();
 		    CacheManager manager = provider.getCacheManager();
 		    for (String c :manager.getCacheNames()){
 		    	manager.getCache(c).removeAll();
-		    }*/
+		    }
 		    ListenableFuture<LogLoadReport> listenableFuture = executor.submit(reload);				 
 		    Futures.addCallback(listenableFuture, new FutureCallback<LogLoadReport>() {
 		        public void onSuccess(LogLoadReport result) {
