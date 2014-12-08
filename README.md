@@ -87,7 +87,7 @@ Other
 
 The app looks in root path directory and all it's sub-directories and recursively searches for .gz files which are then examined and loaded.
 
-Loading data (work in progress - should work)
+Loading data 
 ============
 POST an empty request to /api/admin/reload.  This will start the reload job and return HTTP 202 Accepted, if the job is already running the server will return HTTP status 102.  Once finished, GET /admin/reload will return a summary of the most recent reload job.
 

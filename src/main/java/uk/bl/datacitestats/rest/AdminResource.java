@@ -100,8 +100,6 @@ public class AdminResource extends SelfInjectingServerResource{
 	private void reload(){
 		log.info("Initiating reload");
 		if (lock.compareAndSet(false, true)){
-			
-
 		    ListenableFuture<LogLoadReport> listenableFuture = executor.submit(reload);				 
 		    Futures.addCallback(listenableFuture, new FutureCallback<LogLoadReport>() {
 		        public void onSuccess(LogLoadReport result) {
