@@ -40,8 +40,7 @@ public class GuiceConfigModule extends AbstractModule {
 	private String port = "27017";
 	
 	private String[] ignoreIP = {};//{"131.180.162.34"};
-	private String rootPath = "/var/datacite-stats";//"~/Desktop/datacitestats/cnri";
-	//{ "131.180.162.34", "188.220.246.245","46.137.86.193", "131.180.77.111" };;
+	private String rootPath = "/var/datacite-stats/cnrigz/";
 
 
 	/**

@@ -84,6 +84,8 @@ Other
 * "log.root.path" the root path of a directory containing .gz log files as supplied by cnri (default = /var/datacite-stats)
 * "log.ignore.ip" a collection of requestor IP addresses to ignore when parsing log files (default = empty list)
 
+The app looks in root path directory and all it's sub-directories and recursively searches for .gz files which are then examined and loaded.
+
 Issues
 ======
 
