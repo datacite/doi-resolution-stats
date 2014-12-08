@@ -83,12 +83,13 @@ Other
 
 * "log.root.path" the root path of a directory containing .gz log files as supplied by cnri (default = /var/datacite-stats)
 * "log.ignore.ip" a collection of requestor IP addresses to ignore when parsing log files (default = empty list)
+* ehcache can be configured in ehcache.xml in the resources directory.  Default is a LRU in memory cache.
 
 The app looks in root path directory and all it's sub-directories and recursively searches for .gz files which are then examined and loaded.
 
 Loading data (work in progress - should work)
 ============
-POST an empty request to /admin/reload.  This will start the reload job.  Once finished, GET /admin/reload will return a sumary of the most recent reload job.
+POST an empty request to /admin/reload.  This will start the reload job and return HTTP 202 Accepted, if the job is already running the server will return HTTP status 102.  Once finished, GET /admin/reload will return a summary of the most recent reload job.
 
 Issues
 ======

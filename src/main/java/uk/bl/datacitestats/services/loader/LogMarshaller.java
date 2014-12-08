@@ -11,6 +11,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.zip.GZIPInputStream;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ public class LogMarshaller {
 	private LogLoader loader;
 	final LogLoadReport report = new LogLoadReport();
 
+	@Inject
 	public LogMarshaller(LogLoader loader, @Named("log.root.path") String rootpath) {
 		this.loader = loader;
 		this.rootpath = rootpath;
