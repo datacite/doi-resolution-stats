@@ -50,6 +50,40 @@ In addition, a map of DOI prefixes -> Datacentre names is provided at
 Adding a ?csv param to any of the above will return **CSV**
 `api/stats/hits?limit=100&from=2013-03-01&to=2014-09-01&csv`
 
+Requirements
+============
+Should work with the latest java 1.7.x, mongo 2.4.x and maven 3.x
+
+Tested with
+* Java 1.7
+* Maven 3.0.3
+* MongoDB v2.4.5
+
+Other dependencies are defined in the pom.xml
+
+Configuration
+=============
+The app should work with the default configuration out of the box.
+
+You can configure directly by editing the guice config in [GuiceConfigModule.java](https://github.com/TomDemeranville/datacite-stats/blob/master/src/main/java/uk/bl/datacitestats/GuiceConfigModule.java)
+or by specifying the following servlet parameters in the web.xml
+
+Mongo
+-----
+
+This app will work on a blank install of mongo. A Mongo database will be created if not already present.  
+
+* "mongo.log.db" the db name to use (default  = dcstats)
+* "mongo.log.collection"the db collection to use (default = log)
+* "mongoHost" the hostname of the db (default = localhost)
+* "mongoPort" the port to connect to (default = 27017)
+
+Other
+-----
+
+* "log.root.path" the root path of a directory containing .gz log files as supplied by cnri (default = /var/datacite-stats)
+* "log.ignore.ip" a collection of requestor IP addresses to ignore when parsing log files (default = empty list)
+
 Issues
 ======
 
@@ -72,4 +106,4 @@ TODO
 
 * FIX TIMEZONE issues detailed above...
 * Provide an admin servlet that fires off bulk load jobs.  Currently run via junit script.
-* Live fetch (and cache in the db) datacite customer prefixes & display names.  Currently parsed from a static JSON file.
+* Live fetch (and cache in the db) datacite customer prefixes & display names.  Currently parsed from a static JSON file.  Also need to take into account multiple datacentres can share a prefix. 10.1594 is an example (and could be the only one)

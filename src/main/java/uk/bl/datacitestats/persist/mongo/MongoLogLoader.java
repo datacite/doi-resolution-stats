@@ -33,7 +33,7 @@ public class MongoLogLoader implements LogLoader {
 	 *            a list of ip addresses to skip/ignore
 	 */
 	@Inject
-	public MongoLogLoader(MongoDAO dao, DataciteLogParser parser, @Named("log.ignoreip") String[] ignoreip) {
+	public MongoLogLoader(MongoDAO dao, DataciteLogParser parser, @Named("log.ignore.ip") String[] ignoreip) {
 		this.dao = dao;
 		this.parser = parser;
 		ignore = Sets.newHashSet(ignoreip);

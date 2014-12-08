@@ -63,6 +63,8 @@ public class DataciteLogParser {
 	 * The DataCite DOI Resolution logs for September 2014 have been copied to
 	 * your sever.
 	 * 
+	 * TODO: try one if fail use other.
+	 * 
 	 * Proxy software on all proxy servers has been updated in the last few
 	 * weeks. The update, possibly among other things, records the dates in a
 	 * slightly different format. In my analysis, I found these two new formats:

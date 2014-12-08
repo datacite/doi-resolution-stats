@@ -47,8 +47,7 @@ import com.google.common.collect.Maps;
 
 public class StatsResource extends SelfInjectingServerResource {
 
-	static Cache<String, List<QueryResult>> cache = CacheBuilder.newBuilder().expireAfterWrite(12, TimeUnit.HOURS)
-			.build();
+	static Cache<String, List<QueryResult>> cache = CacheBuilder.newBuilder().build();
 
 	Logger log = LoggerFactory.getLogger(StatsResource.class);
 
@@ -89,7 +88,7 @@ public class StatsResource extends SelfInjectingServerResource {
 			type = t.get();
 
 		String suffix = this.getAttribute("suffix");
-		breakdown = (this.getQueryValue("breakdown") != null);
+		breakdown = (this.getQueryValue("breakdown") != null); //TODO change to bydoi (also update docs)
 		if (this.getQueryValue("limit") != null) {
 			try {
 				limit = Integer.parseInt(this.getQueryValue("limit"));
