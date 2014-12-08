@@ -19,8 +19,7 @@ import com.google.common.base.Stopwatch;
 
 /**
  * Will actually load the live database - this is more a script than a test.
- * Needs refactoring into an admin service JUnit annotations commented out for
- * now.
+ * now commented out.  Use /api/admin/reload
  */
 public class LogMarshallerTest {
 
@@ -42,15 +41,14 @@ public class LogMarshallerTest {
 		mar = new LogMarshaller(loader, "/var/datacite-stats/cnrigz/");
 	}
 
-	@Test
+	//@Test
 	public void testMarshall() {
+		/*
 		Stopwatch sw = Stopwatch.createStarted();
 		LogLoadReport report = mar.findAndParse();
 		System.out.println("time " + sw.elapsed(TimeUnit.MINUTES) + " minutes");
 		System.out.println(report);
-		//assertEquals(report.getLinesAdded(), 8586946);
-		//assertEquals(report.getLinesIgnored(), 21019661);
-		//assertEquals(report.getLinesFailed(), 104060);
+		*/
 	}
 
 }
