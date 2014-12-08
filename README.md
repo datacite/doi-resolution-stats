@@ -86,6 +86,10 @@ Other
 
 The app looks in root path directory and all it's sub-directories and recursively searches for .gz files which are then examined and loaded.
 
+Loading data (work in progress - should work)
+============
+POST an empty request to /admin/reload.  This will start the reload job.  Once finished, GET /admin/reload will return a sumary of the most recent reload job.
+
 Issues
 ======
 
