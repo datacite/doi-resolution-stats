@@ -19,7 +19,7 @@ import com.google.common.base.Stopwatch;
 
 /**
  * Will actually load the live database - this is more a script than a test.
- * now commented out.  Use /api/admin/reload
+ * now commented out.  Use /api/admin/reload instead
  */
 public class LogMarshallerTest {
 

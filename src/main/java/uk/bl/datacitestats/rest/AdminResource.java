@@ -101,16 +101,17 @@ public class AdminResource extends SelfInjectingServerResource{
 		log.info("Initiating reload");
 		if (lock.compareAndSet(false, true)){
 			
-		    CachingProvider provider = Caching.getCachingProvider();
-		    CacheManager manager = provider.getCacheManager();
-		    for (String c :manager.getCacheNames()){
-		    	manager.getCache(c).removeAll();
-		    }
+
 		    ListenableFuture<LogLoadReport> listenableFuture = executor.submit(reload);				 
 		    Futures.addCallback(listenableFuture, new FutureCallback<LogLoadReport>() {
 		        public void onSuccess(LogLoadReport result) {
 		        	latestReport = result;
 		        	log.info("reloaded logs "+result);
+				    CachingProvider provider = Caching.getCachingProvider();
+				    CacheManager manager = provider.getCacheManager();
+				    for (String c :manager.getCacheNames()){
+				    	manager.getCache(c).removeAll();
+				    }
 		        	lock.set(false);
 		        }
 		        public void onFailure(Throwable thrown) {
