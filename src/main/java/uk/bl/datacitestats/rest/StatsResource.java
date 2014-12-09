@@ -47,7 +47,7 @@ import com.google.common.collect.Maps;
 
 public class StatsResource extends SelfInjectingServerResource {
 
-	static Cache<String, List<QueryResult>> cache = CacheBuilder.newBuilder().build();
+	//static Cache<String, List<QueryResult>> cache = CacheBuilder.newBuilder().build();
 
 	Logger log = LoggerFactory.getLogger(StatsResource.class);
 
@@ -119,10 +119,11 @@ public class StatsResource extends SelfInjectingServerResource {
 	 */
 	@Get("json")
 	public List<QueryResult> getStats() {
-		List<QueryResult> result = cache.getIfPresent(getRequest().getResourceRef().toString());
-		if (result != null)
-			return result;
+		//List<QueryResult> result = cache.getIfPresent(getRequest().getResourceRef().toString());
+		//if (result != null)
+			//return result;
 
+		List<QueryResult> result = null;
 		if (breakdown && doi.isPresent() && type.equals(STAT_TYPE.MONTHLY)) {
 			result = resolver.monthlyPerDOI(doi.get());
 		} else if (breakdown && doi.isPresent() && type.equals(STAT_TYPE.DAILY)) {

@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.bl.datacitestats.services.loader.LogLoadReport;
 import uk.bl.datacitestats.services.loader.LogMarshaller;
+import uk.bl.datacitestats.services.query.LogQueryResolver;
 
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.FutureCallback;
@@ -38,6 +39,8 @@ public class AdminResource extends SelfInjectingServerResource{
 	
 	@Inject
 	LogMarshaller m;
+	@Inject
+	LogQueryResolver resolver;
 	
 	ListeningExecutorService executor = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor());
 	
@@ -105,11 +108,16 @@ public class AdminResource extends SelfInjectingServerResource{
 		        public void onSuccess(LogLoadReport result) {
 		        	latestReport = result;
 		        	log.info("reloaded logs "+result);
+		        	//clear caches
 				    CachingProvider provider = Caching.getCachingProvider();
 				    CacheManager manager = provider.getCacheManager();
 				    for (String c :manager.getCacheNames()){
 				    	manager.getCache(c).removeAll();
 				    }
+				    //repopulate caches
+				    Optional<String> prefix = Optional.absent();
+				    resolver.daily(prefix);
+				    resolver.monthly(prefix);
 		        	lock.set(false);
 		        }
 		        public void onFailure(Throwable thrown) {

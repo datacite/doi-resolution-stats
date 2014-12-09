@@ -98,10 +98,16 @@ public class DataciteLogParser {
 				//line 4 is success. if !=1 then not found in DOI database
 				if (line.get(4).equals(1))
 					logline.setExists(true);
+				if (logline.getDoi() == null || logline.getDoi().trim().isEmpty())
+					throw new MissingDOIException();
+				
 				return logline;
 			} catch (InstantiationException | IllegalAccessException e) {
 				throw new RuntimeException("Problem instantiating LogLine",e);
 			} 
 	}
 
+	public static class MissingDOIException extends RuntimeException{
+		private static final long serialVersionUID = 1L;		
+	}
 }
