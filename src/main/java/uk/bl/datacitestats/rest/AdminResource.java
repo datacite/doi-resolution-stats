@@ -35,7 +35,7 @@ public class AdminResource extends SelfInjectingServerResource{
 	static AtomicBoolean lock = new AtomicBoolean(false);
 	
 	Logger log = LoggerFactory.getLogger(AdminResource.class);
-	LogLoadReport latestReport;
+	static LogLoadReport latestReport;
 	
 	@Inject
 	LogMarshaller m;
