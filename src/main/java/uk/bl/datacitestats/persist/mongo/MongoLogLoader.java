@@ -58,7 +58,7 @@ public class MongoLogLoader implements LogLoader {
 					String lineString = it.nextLine();
 					MongoLogLine line = parser.parse(MongoLogLine.class, lineString);
 					if (!ignore.contains(line.getHost())) {
-						dao.putLine(parser.parse(MongoLogLine.class, lineString));
+						dao.putLine(line);
 						report.setLinesAdded(report.getLinesAdded() + 1);
 					} else
 						report.setLinesIgnored(report.getLinesIgnored() + 1);
