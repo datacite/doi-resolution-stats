@@ -50,10 +50,8 @@ public class MongoLogLoader implements LogLoader {
 		
 		LogLoadReport report = new LogLoadReport();
 		try {
-			int count = 0;
 			LineIterator it = IOUtils.lineIterator(logfile, "UTF-8");
 			while (it.hasNext()) {
-				count++;
 				try {
 					String lineString = it.nextLine();
 					MongoLogLine line = parser.parse(MongoLogLine.class, lineString);
@@ -66,7 +64,6 @@ public class MongoLogLoader implements LogLoader {
 					report.logError(e);
 				}
 			}
-			System.out.println("count "+count); //only doing every other line? FFS
 		} catch (IOException e) {
 			throw e;
 		} finally {
