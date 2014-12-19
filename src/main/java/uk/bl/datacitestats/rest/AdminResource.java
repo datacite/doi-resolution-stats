@@ -122,7 +122,7 @@ public class AdminResource extends SelfInjectingServerResource{
 		        }
 		        public void onFailure(Throwable thrown) {
 		        	latestReport = null;
-		        	log.info("reloaded log failiure",thrown);
+		        	log.info("reloaded log failure",thrown);
 		        	lock.set(false);
 		        }
 		    });
