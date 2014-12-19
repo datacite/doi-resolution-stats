@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Parses logs supplied by CNRI into POJOs
@@ -56,7 +57,7 @@ public class DataciteLogParser {
 		return tokens;
 	}
 
-	static final SimpleDateFormat dataciteDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+	static final SimpleDateFormat dataciteDate = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 
 	// see also
 	/*
