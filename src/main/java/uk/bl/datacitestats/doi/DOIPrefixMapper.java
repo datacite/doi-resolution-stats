@@ -39,7 +39,7 @@ public class DOIPrefixMapper {
 	// TODO: inject location?
 	@Inject
 	public DOIPrefixMapper() {
-		datacentreMap = loadBasicDatacentreMap("datacentre-prefixes.json");
+		datacentreMap = loadBasicDatacentreMap("/datacentre-prefixes.json");
 	}
 
 	private ImmutableMultimap<String, String> loadBasicDatacentreMap(String file) {
